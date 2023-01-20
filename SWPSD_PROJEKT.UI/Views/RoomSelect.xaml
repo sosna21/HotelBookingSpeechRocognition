@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="SWPSD_PROJEKT.UI.Views.RoomSelect"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SWPSD_PROJEKT.UI.Views"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Name="BackBtn" Command="{Binding NavigateHomeCommand}" Width="25" Height="25" HorizontalAlignment="Left"
+                VerticalAlignment="Top" Margin="10">
+            <Path Data="M 410.312 454.729 151.767 244.996 410.312 35.271 381.693 0 79.688 244.996 381.693 490 Z"
+                  Fill="Black" Stretch="Fill" Height="15" Width="10" />
+        </Button>
+
+        <!-- Img 1 Container -->
+        <Grid Grid.Column="0" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Button Name="Room1Btn" Command="{Binding NavigateFacilitiesSelectionCommand}" Background="Transparent" BorderThickness="0"
+                    Margin="30 15">
+                <Image Source="{StaticResource ApartamentImg}" />
+            </Button>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Apartament Luxus " />
+                <fa:ImageAwesome Name="Room1Icon" MouseDown="ReadDescription_OnMouseDown" Icon="Headphones"
+                                 Foreground="#FFFF7400" Height="25" Width="25" />
+            </StackPanel>
+            <!-- TODO change text to sensible -->
+            <TextBlock Name="RoomDescription1" Grid.Row="2" TextWrapping="Wrap" Margin="5 0" Background="Moccasin"
+                       Style="{StaticResource {x:Type TextBlock}}">
+                Piekny i drogi&#xa;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                eu fugiat nulla pariatur.
+            </TextBlock>
+
+        </Grid>
+
+        <!-- Img 2 Container -->
+        <Grid Grid.Column="1" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Button Name="Room2Btn" Command="{Binding NavigateFacilitiesSelectionCommand}" Background="Transparent" BorderThickness="0"
+                    Margin="30 15">
+                <Image Source="{StaticResource BiedaImg}" />
+            </Button>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Apartament Comfort " />
+                <fa:ImageAwesome Name="Room2Icon" MouseDown="ReadDescription_OnMouseDown" Icon="Headphones"
+                                 Foreground="#FFFF7400" Height="25" Width="25" />
+            </StackPanel>
+            <!-- TODO change text to sensible -->
+            <TextBlock Name="RoomDescription2" Grid.Row="2" TextWrapping="Wrap" Margin="5 0" Background="Moccasin"
+                       Style="{StaticResource {x:Type TextBlock}}">
+                Brzydki ale tani &#xa;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                eu fugiat nulla pariatur.
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>
