@@ -6,12 +6,12 @@ namespace SWPSD_PROJEKT.UI.ViewModels;
 
 public class FacilitiesSelectionViewModel : ViewModelBase
 {
-    public ICommand NavigateRoomSelectCommand { get; }
+    public ICommand NavigateReservationDateSelectCommand { get; }
     public ICommand NavigateSummaryOrderCommand { get; }
 
     public FacilitiesSelectionViewModel(NavigationStore navigatorStore)
     {
-        NavigateRoomSelectCommand = new NavigateCommand<RoomSelectViewModel>(navigatorStore, () => new RoomSelectViewModel(navigatorStore));
+        NavigateReservationDateSelectCommand = new NavigateCommand<ReservationDateSelectViewModel>(navigatorStore, () => new ReservationDateSelectViewModel(navigatorStore));
         NavigateSummaryOrderCommand = new NavigateCommand<SummaryOrderViewModel>(navigatorStore, () => new SummaryOrderViewModel(navigatorStore));
     }
 }

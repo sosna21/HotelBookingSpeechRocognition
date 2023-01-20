@@ -43,6 +43,7 @@ public partial class RoomSelect : UserControl
         var txt = result.Text;
         if (confidence > 0.5)
         {
+            //TODO dodać pozostałe wybory pokoii !! (dodac czytanie)
             if (result.Grammar.RuleName == "rootRoomSelect")
             {
                 string opcja = result.Semantics["Opcja"].Value.ToString();
@@ -51,36 +52,33 @@ public partial class RoomSelect : UserControl
                     case "Apartament Luxus":
                         //TODO potwierdzenie przed przejściem dalej (np powiedz potwierdz wybór)
                         _tts.SpeakAsync("Wybrano apartament luxus");
-                        Room1Btn.Command.Execute(null);
+                        ComfortImgBtn.Command.Execute(null);
                         break;
                     case "Apartament Comfort":
                         _tts.SpeakAsync("Wybrano apartament comfort");
-                        Room2Btn.Command.Execute(null);
+                        ApartamentImgBtn.Command.Execute(null);
                         break;
+                    //TODO usunac czytanie z gramatyki
                     case "Czytaj Apartament Luxus":
-                        ReadDescription_OnMouseDown(Room1Icon, null);
+                        // ReadDescription_OnMouseDown(Room1Icon, null);
                         break;
                     case "Czytaj Apartament Comfort":
-                        ReadDescription_OnMouseDown(Room2Icon, null);
+                        // ReadDescription_OnMouseDown(Room2Icon, null);
                         break;
                     case "Pomoc":
                         //TODO implement
                         break;
-                    case "Wstecz":
-                        var viewModel = (RoomSelectViewModel) DataContext;
-                        if (viewModel.NavigateHomeCommand.CanExecute(null))
-                            viewModel.NavigateHomeCommand.Execute(null);
-                        break;
+                    //TODO usunac z gramatyki dodac wstecz do pozostalych widokow
+                    // case "Wstecz":
+                    //     var viewModel = (RoomSelectViewModel) DataContext;
+                    //     if (viewModel.NavigateRoomDescriptionCommand.CanExecute(null))
+                    //         viewModel.NavigateRoomDescriptionCommand.Execute(null);
+                    //     break;
                     default:
                         _tts.SpeakAsync("Nierozpoznana komenda");
                         break;
                 }
             }
         }
-    }
-
-    private void ReadDescription_OnMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        _tts.SpeakAsync(sender.Equals(Room1Icon) ? RoomDescription1.Text : RoomDescription2.Text);
     }
 }

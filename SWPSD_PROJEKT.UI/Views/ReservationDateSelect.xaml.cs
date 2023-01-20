@@ -130,16 +130,21 @@ public partial class HomeView : UserControl
 
     private void BtnContinue_OnClick(object sender, RoutedEventArgs e)
     {
-        var errors = ValidateForm();
-        if (string.IsNullOrEmpty(errors))
-        {
-            var viewModel = (HomeViewModel) DataContext;
-            if (viewModel.NavigateRoomSelectCommand.CanExecute(null))
-                viewModel.NavigateRoomSelectCommand.Execute(null);
-        }
-        else
-        {
-            //TODO add to error msg 
-        }
+        var viewModel = (ReservationDateSelectViewModel) DataContext;
+        if (viewModel.NavigateFacilitiesSelectionCommand.CanExecute(null))
+            viewModel.NavigateFacilitiesSelectionCommand.Execute(null);
+        
+        //TODO uncomment at end
+        // var errors = ValidateForm();
+        // if (string.IsNullOrEmpty(errors))
+        // {
+        //     var viewModel = (HomeViewModel) DataContext;
+        //     if (viewModel.NavigateFacilitiesSelectionCommand.CanExecute(null))
+        //         viewModel.NavigateFacilitiesSelectionCommand.Execute(null);
+        // }
+        // else
+        // {
+        //     //TODO add to error msg 
+        // }
     }
 }

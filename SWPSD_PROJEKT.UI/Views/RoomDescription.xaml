@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="SWPSD_PROJEKT.UI.Views.RoomDescription"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SWPSD_PROJEKT.UI.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Button Name="BackBtn" Command="{Binding NavigateRoomSelectCommand}" Width="25" Height="25" HorizontalAlignment="Left"
+                VerticalAlignment="Top" Margin="10">
+            <Path Data="M 410.312 454.729 151.767 244.996 410.312 35.271 381.693 0 79.688 244.996 381.693 490 Z"
+                  Fill="Black" Stretch="Fill" Height="15" Width="10" />
+        </Button>
+        
+        <!-- Img Container -->
+        <Grid Grid.Row="0" Grid.Column="0" Margin="20">
+            <Image Source="{StaticResource ComfortImg}" />
+        </Grid>
+        
+        <!-- Description Container -->
+        <Grid Grid.Row="0" Grid.Column="1" Margin="60">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0" Style="{StaticResource Window1TextBlock}">Apartament Comfort</TextBlock>
+            <TextBlock Grid.Row="1" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}">
+                Brzydki ale tani &#xa;
+            </TextBlock>
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                eu fugiat nulla pariatur.<LineBreak/>
+                &#x26AB; Item 1<LineBreak/>
+                
+            </TextBlock>
+            <Button Grid.Row="3" Background="RoyalBlue" Foreground="WhiteSmoke" Width="150"
+                    Command="{Binding NavigateReservationDateSelectCommand}">Zarezerwuj</Button>
+        </Grid>
+    </Grid>
+</UserControl>

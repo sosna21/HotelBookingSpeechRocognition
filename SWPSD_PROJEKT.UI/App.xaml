@@ -6,12 +6,15 @@
     
         <BitmapImage x:Key="ApartamentImg"
                      UriSource="Assets/hotel-apartament.jpg" />
-        <BitmapImage x:Key="BiedaImg"
+        <BitmapImage x:Key="ComfortImg"
                      UriSource="Assets/hotel-tanszy.jpg" />
         <BitmapImage x:Key="HotelImg"
                      UriSource="Assets/hotel.jpg" />
+        <BitmapImage x:Key="DeluxeImg"
+                     UriSource="Assets/hotel-deluxe.jpg" />
+        <BitmapImage x:Key="SuperDeluxeImg"
+                     UriSource="Assets/hotel-super-deluxe.jpg" />
 
-    
         <!-- Header style -->
         <Style x:Key="Header1" TargetType="TextBlock">
             <Setter Property="FontSize" Value="30" />
@@ -69,7 +72,7 @@
 
         <!-- TextBlock style -->
         <Style TargetType="TextBlock">
-            <Setter Property="Padding" Value="5"></Setter>
+            <!-- <Setter Property="Padding" Value="5"></Setter> -->
             <Setter Property="FontSize" Value="14"></Setter>
             <Setter Property="TextAlignment" Value="Center"></Setter>
         </Style>
@@ -78,6 +81,13 @@
         <Style x:Key="GoodbyeInfo" TargetType="TextBlock">
             <Setter Property="FontSize" Value="24"></Setter>
             <Setter Property="TextAlignment" Value="Center"></Setter>
+        </Style>
+        
+        <!-- Window1TextBlock style -->
+        <Style x:Key="Window1TextBlock" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="FontFamily" Value="Counter New"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
         </Style>
 
         <!-- TexBox style -->

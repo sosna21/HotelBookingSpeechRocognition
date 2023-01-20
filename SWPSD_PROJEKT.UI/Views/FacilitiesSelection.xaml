@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <Button Command="{Binding NavigateRoomSelectCommand}" Width="25" Height="25" HorizontalAlignment="Left"
+        <Button Command="{Binding NavigateReservationDateSelectCommand}" Width="25" Height="25" HorizontalAlignment="Left"
                 VerticalAlignment="Top" Margin="10">
             <Path Data="M 410.312 454.729 151.767 244.996 410.312 35.271 381.693 0 79.688 244.996 381.693 490 Z"
                   Fill="Black" Stretch="Fill" Height="15" Width="10" />

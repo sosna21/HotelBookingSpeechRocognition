@@ -45,8 +45,6 @@ C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\EntityFram
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\SWPSD_PROJEKT.ASR.dll
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\SWPSD_PROJEKT.ASR.pdb
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\SWPSD_PROJEKT.ASR.dll.config
-C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\Views\HomeView.g.cs
-C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\Views\HomeView.baml
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\FontAwesome.WPF.dll
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\FontAwesome.WPF.xml
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\App.baml
@@ -79,3 +77,9 @@ C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\sv\Xceed.W
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\Views\SummaryOrder.g.cs
 C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\Views\SummaryOrder.baml
+C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\Assets\hotel-deluxe.jpg
+C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\bin\Debug\Assets\hotel-super-deluxe.jpg
+C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\Views\RoomDescription.g.cs
+C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\Views\RoomDescription.baml
+C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\Views\ReservationDateSelect.g.cs
+C:\Users\sosna\RiderProjects\SWPSD_PROJEKT\SWPSD_PROJEKT.UI\obj\Debug\Views\ReservationDateSelect.baml

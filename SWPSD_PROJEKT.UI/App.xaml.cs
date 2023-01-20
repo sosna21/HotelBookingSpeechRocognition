@@ -30,7 +30,7 @@ namespace SWPSD_PROJEKT.UI
             
             //multi view config
             NavigationStore navigationStore = new NavigationStore();
-            navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
+            navigationStore.CurrentViewModel = new RoomSelectViewModel(navigationStore);
             MainWindow = new MainWindow()
             {
                 DataContext = new MainViewModel(navigationStore)

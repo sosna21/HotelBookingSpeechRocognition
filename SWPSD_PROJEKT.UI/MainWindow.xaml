@@ -36,11 +36,14 @@
 
         <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
-                    <views:HomeView />
-                </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:RoomSelectViewModel}">
                     <views:RoomSelect />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:RoomDescriptionViewModel}">
+                    <views:RoomDescription />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ReservationDateSelectViewModel}">
+                    <views:HomeView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:FacilitiesSelectionViewModel}">
                     <views:FacilitiesSelection />
