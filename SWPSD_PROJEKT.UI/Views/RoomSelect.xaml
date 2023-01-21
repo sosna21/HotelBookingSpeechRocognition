@@ -45,7 +45,7 @@
                     Margin="120 5">
                 <Image Source="{StaticResource ApartamentImg}" />
             </Button>
-            <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Pokój trzosobowy</TextBlock>
+            <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Pokój trzyosobowy</TextBlock>
 
         </Grid>
 
