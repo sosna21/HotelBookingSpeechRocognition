@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SWPSD_PROJEKT.UI.Views.HomeView"
+﻿<UserControl x:Class="SWPSD_PROJEKT.UI.Views.ReservationDateSelect"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -43,14 +43,8 @@
             <Label Content="Data wymeldowania:" Target="{Binding ElementName=txtSurname}" />
             <DatePicker Name="ToDate" Style="{StaticResource FieldStyle}" />
         </StackPanel>
-        <StackPanel Grid.Row="3" Grid.Column="1">
-            <Label Content="Liczba osób:" />
-            <!-- TODO change control to another -->
-            <xctk:IntegerUpDown Name="PeopleNb" Style="{StaticResource FieldStyle}"/>
-        </StackPanel>
         <!-- TODO one style for all continue buttons -->
         <Button Name="BtnContinue" Background="RoyalBlue" Foreground="White" FontWeight="Medium" Grid.Row="4"
-                Grid.Column="1" Width="120" HorizontalAlignment="Right" Content="Kontynuuj"
-                Click="BtnContinue_OnClick"/>
+                Grid.Column="1" Width="120" HorizontalAlignment="Right" Content="Kontynuuj" Command="{Binding NavigateFacilitiesSelectionCommand}"/>
     </Grid>
 </UserControl>

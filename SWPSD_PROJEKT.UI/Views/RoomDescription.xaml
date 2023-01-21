@@ -32,21 +32,20 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             
-            <TextBlock Grid.Row="0" Style="{StaticResource Window1TextBlock}">Apartament Comfort</TextBlock>
-            <TextBlock Grid.Row="1" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}">
-                Brzydki ale tani &#xa;
+            <TextBlock Name="RoomName" Grid.Row="0" Style="{StaticResource Window1TextBlock}">Pokój dwuosobowy</TextBlock>
+            <TextBlock Name="RoomDesc" Grid.Row="1" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}">
+                W pokoju znajduje się biurko, telewizor z płaskim ekranem oraz prywatna łazienka. 
+                Pościel i ręczniki są zapewnione. Pokój wyposażony jest w szafę i bardzo wygodne łóżka.<LineBreak/>
+                <LineBreak/>
+                &#xb0; 24 m2<LineBreak/>
+                &#xb0; łazienka z wanną<LineBreak/>
+                &#xb0; widok na miasto<LineBreak/>
             </TextBlock>
-            <TextBlock Grid.Row="2" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                eu fugiat nulla pariatur.<LineBreak/>
-                &#x26AB; Item 1<LineBreak/>
-                
-            </TextBlock>
-            <Button Grid.Row="3" Background="RoyalBlue" Foreground="WhiteSmoke" Width="150"
+            <Button Name="ContinueBtn" Grid.Row="2" Background="RoyalBlue" Foreground="WhiteSmoke" Width="180"
                     Command="{Binding NavigateReservationDateSelectCommand}">Zarezerwuj</Button>
+            
+            <Button Name="StopBtn" Margin="20" Grid.Row="3" Background="RoyalBlue" Foreground="WhiteSmoke" Width="180"
+                    Click="StopBtn_OnClick">Zakończ czytanie opisu</Button>
         </Grid>
     </Grid>
 </UserControl>

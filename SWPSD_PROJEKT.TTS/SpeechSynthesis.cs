@@ -25,4 +25,8 @@ public class SpeechSynthesis
     {
         TTS.SpeakAsync("Proszę powtórzyć");
     }
+    public void TerminateSpeakSyn()
+    {
+        TTS.SpeakAsyncCancelAll();
+    }
 }

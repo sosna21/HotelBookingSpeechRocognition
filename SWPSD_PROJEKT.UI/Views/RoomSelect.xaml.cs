@@ -34,6 +34,7 @@ public partial class RoomSelect : UserControl
         _sre.UnloadAllGrammar();
         _sre.LoadRoomSelectGrammar();
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
+        _tts.SpeakAsync("Witamy w systemie rezerwacji pokoi hotelu Royal");
     }
 
     private void SpeechRecognized(RecognitionResult result)
@@ -49,24 +50,28 @@ public partial class RoomSelect : UserControl
                 string opcja = result.Semantics["Opcja"].Value.ToString();
                 switch (opcja)
                 {
-                    case "Apartament Luxus":
+                    case "Pokój dwuosobowy":
                         //TODO potwierdzenie przed przejściem dalej (np powiedz potwierdz wybór)
-                        _tts.SpeakAsync("Wybrano apartament luxus");
+                        //_tts.SpeakAsync("Wybrano pokój dwuosobowy");
                         ComfortImgBtn.Command.Execute(null);
                         break;
-                    case "Apartament Comfort":
-                        _tts.SpeakAsync("Wybrano apartament comfort");
+                    case "Pokój trzyosobowy":
+                        //_tts.SpeakAsync("Wybrano pokój trzyosobowy");
                         ApartamentImgBtn.Command.Execute(null);
                         break;
                     //TODO usunac czytanie z gramatyki
-                    case "Czytaj Apartament Luxus":
+                    case "Pokój czteroosobowy":
+                        //_tts.SpeakAsync("Wybrano pokój czteroosobowy");
+                        ApartamentImgBtn.Command.Execute(null);
                         // ReadDescription_OnMouseDown(Room1Icon, null);
                         break;
-                    case "Czytaj Apartament Comfort":
+                    case "Apartament czteroosobowy":
+                        //_tts.SpeakAsync("Wybrano apartament czteroosobowy");
+                        SuperDeluxeImgBtn.Command.Execute(null);
                         // ReadDescription_OnMouseDown(Room2Icon, null);
                         break;
                     case "Pomoc":
-                        //TODO implement
+                        _tts.SpeakAsync("Powiedz jaki pokój chcesz zarezerwować");
                         break;
                     //TODO usunac z gramatyki dodac wstecz do pozostalych widokow
                     // case "Wstecz":

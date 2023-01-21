@@ -57,12 +57,14 @@ public class SpeechRecognition
         var calendarGrammar2 = CreateCalendarGrammar("rootData2");
         var numberGrammar = CreateNumberGrammar();
         var roomSelectGrammar = CreateRoomSelectGrammar();
+        var roomDescriptionGrammar = CreateRoomDescriptionGrammar();
 
         _grammarsDict.Add(GrammarName.HomePageSystemGrammar, homePageSystemGrammar);
         _grammarsDict.Add(GrammarName.CalendarGrammar1, calendarGrammar1);
         _grammarsDict.Add(GrammarName.CalendarGrammar2, calendarGrammar2);
         _grammarsDict.Add(GrammarName.NumberGrammar, numberGrammar);
         _grammarsDict.Add(GrammarName.RoomSelectGrammar, roomSelectGrammar);
+        _grammarsDict.Add(GrammarName.RoomDescriptionGrammar, roomDescriptionGrammar);
     }
 
     private Grammar CreateRoomSelectGrammar()
@@ -71,10 +73,10 @@ public class SpeechRecognition
         
         SrgsOneOf options = new SrgsOneOf(new SrgsItem[]
         {
-            new("Apartament Luxus"),
-            new("Apartament Comfort"),
-            new("Czytaj Apartament Luxus"),
-            new("Czytaj Apartament Comfort"),
+            new("Pokój dwuosobowy"),
+            new("Pokój trzyosobowy"),
+            new("Pokój czteroosobowy"),
+            new("Apartament czteroosobowy"),
             new("Pomoc"),
             new("Wstecz")
         });
@@ -94,6 +96,35 @@ public class SpeechRecognition
         Grammar gramatyka = new Grammar(docWeight, "rootRoomSelect");
         return gramatyka;
     }
+    
+    private Grammar CreateRoomDescriptionGrammar()
+    {
+        SrgsRule option = new SrgsRule("Opcja");
+        
+        SrgsOneOf options = new SrgsOneOf(new SrgsItem[]
+        {
+            new("Czytaj opis"),
+            new("Zarezerwuj"),
+            new("Pomoc"),
+            new("Wstecz")
+        });
+        option.Add(options);
+
+        SrgsRule rootRoomDescription = new SrgsRule("rootRoomDescription");
+        rootRoomDescription.Scope = SrgsRuleScope.Public;
+        rootRoomDescription.Add(new SrgsRuleRef(option, "Opcja"));
+
+        SrgsDocument docWeight = new SrgsDocument();
+        docWeight.Root = rootRoomDescription;
+        docWeight.Culture = new CultureInfo("pl-PL");
+        docWeight.Rules.Add(new SrgsRule[]
+            {rootRoomDescription, option}
+        );
+
+        Grammar gramatyka = new Grammar(docWeight, "rootRoomDescription");
+        return gramatyka;
+    }
+    
     
     private Grammar CreateNumberGrammar()
     {
@@ -194,9 +225,10 @@ public class SpeechRecognition
         {
             new("Data zameldowania"),
             new("Data wymeldowania"),
-            new("Liczba osób"),
             new("Kontynuuj"),
             new("Reset"),
+            new("Wstecz"),
+            new("Pomoc")
         });
         optionRule.Add(options);
 
@@ -259,6 +291,11 @@ public class SpeechRecognition
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.RoomSelectGrammar]);
     }
 
+    public void LoadRoomDescriptionGrammar()
+    {
+        _sre.LoadGrammarAsync(_grammarsDict[GrammarName.RoomDescriptionGrammar]);
+    }
+    
     public void UnloadCalendarGrammar1()
     {
         _sre.UnloadGrammar(_grammarsDict[GrammarName.CalendarGrammar1]);
