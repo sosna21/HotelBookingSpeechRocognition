@@ -11,7 +11,6 @@ public class RoomSelectViewModel : ViewModelBase
 
     public RoomSelectViewModel(NavigationStore navigatorStore)
     {
-
         NavigateRoomDescriptionCommand=
             new NavigateCommand<RoomDescriptionViewModel>(navigatorStore, () => new RoomDescriptionViewModel(navigatorStore));
     }
