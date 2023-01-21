@@ -9,11 +9,11 @@ using SWPSD_PROJEKT.UI.ViewModels;
 
 namespace SWPSD_PROJEKT.UI.Views;
 
-public partial class HomeView : UserControl
+public partial class ReservationDateSelect : UserControl
 {
     private SpeechRecognition _sre;
     private SpeechSynthesis _tts;
-    public HomeView()
+    public ReservationDateSelect()
     {
         InitializeComponent();
         Loaded += OnLoaded;
@@ -33,7 +33,6 @@ public partial class HomeView : UserControl
     {
         FromDate.Text = "";
         ToDate.Text = "";
-        PeopleNb.Text = "";
         //TODO reset error msg here
     }
 
@@ -63,13 +62,6 @@ public partial class HomeView : UserControl
                         _sre.LoadCalendarGrammar2();
                         _sre.LoadHomePageSystemGrammar();
                         break;
-                    case "Liczba osób":
-                        PeopleNb.Focus();
-                        _tts.SpeakAsync($"Wybrano pole {opcja} podaj wartość");
-                        _sre.UnloadAllGrammar();
-                        _sre.LoadNumberGrammar();
-                        _sre.LoadHomePageSystemGrammar();
-                        break;
                     case "Kontynuuj":
                         var error = ValidateForm();
                         if (string.IsNullOrEmpty(error))
@@ -82,6 +74,15 @@ public partial class HomeView : UserControl
                         Reset();
                         _tts.SpeakAsync("Nastąpiło zresetowanie formularza");
                         break;
+                    case "Wstecz":
+                        var viewModel = (ReservationDateSelectViewModel) DataContext;
+                        if (viewModel.NavigateRoomDescriptionCommand.CanExecute(null))
+                            viewModel.NavigateRoomDescriptionCommand.Execute(null);
+                        break;
+                    case "Pomoc":
+                        _tts.SpeakAsync("Powiedz datę zameldowania i wymeldowania aby przejść dalej. Powiedz wstecz aby wrócić do opisu pokoju. Powiedz wyczyść aby wyczyścić formularz.");
+                        break;
+                    
                     default:
                         _tts.SpeakAsync("Nierozpoznana komenda");
                         break;
@@ -104,7 +105,6 @@ public partial class HomeView : UserControl
             else if (result.Grammar.RuleName == "rootNumer")
             {
                 var number = result.Semantics["Numer"].Value.ToString();
-                PeopleNb.Text = number;
             }
         }
         else
@@ -115,16 +115,8 @@ public partial class HomeView : UserControl
 
     private string ValidateForm()
     {
-        if (string.IsNullOrWhiteSpace(ToDate.Text) || string.IsNullOrWhiteSpace(FromDate.Text) ||
-            string.IsNullOrEmpty(PeopleNb.Text))
+        if (string.IsNullOrWhiteSpace(ToDate.Text) || string.IsNullOrWhiteSpace(FromDate.Text))
             return "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
-
-        if (Regex.IsMatch(PeopleNb.Text, "[^0-9]+"))
-        {
-            PeopleNb.Focus();
-            return "Pole liczba osób jest uzupełnione nieprawidłowo.\nPodaj właściwą wartość przed kontynuowaniem.";
-        }
-
         return null;
     }
 

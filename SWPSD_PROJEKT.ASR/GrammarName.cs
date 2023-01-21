@@ -6,5 +6,6 @@ public enum GrammarName
     CalendarGrammar1,
     CalendarGrammar2,
     NumberGrammar,
-    RoomSelectGrammar
+    RoomSelectGrammar,
+    RoomDescriptionGrammar
 }

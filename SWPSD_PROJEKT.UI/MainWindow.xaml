@@ -43,7 +43,7 @@
                     <views:RoomDescription />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:ReservationDateSelectViewModel}">
-                    <views:HomeView />
+                    <views:ReservationDateSelect />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:FacilitiesSelectionViewModel}">
                     <views:FacilitiesSelection />

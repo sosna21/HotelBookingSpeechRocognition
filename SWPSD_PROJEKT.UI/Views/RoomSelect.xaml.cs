@@ -52,26 +52,26 @@ public partial class RoomSelect : UserControl
                 {
                     case "Pokój dwuosobowy":
                         //TODO potwierdzenie przed przejściem dalej (np powiedz potwierdz wybór)
-                        _tts.SpeakAsync("Wybrano pokój dwuosobowy");
+                        //_tts.SpeakAsync("Wybrano pokój dwuosobowy");
                         ComfortImgBtn.Command.Execute(null);
                         break;
                     case "Pokój trzyosobowy":
-                        _tts.SpeakAsync("Wybrano pokój trzyosobowy");
+                        //_tts.SpeakAsync("Wybrano pokój trzyosobowy");
                         ApartamentImgBtn.Command.Execute(null);
                         break;
                     //TODO usunac czytanie z gramatyki
                     case "Pokój czteroosobowy":
-                        _tts.SpeakAsync("Wybrano pokój czteroosobowy");
+                        //_tts.SpeakAsync("Wybrano pokój czteroosobowy");
                         ApartamentImgBtn.Command.Execute(null);
                         // ReadDescription_OnMouseDown(Room1Icon, null);
                         break;
                     case "Apartament czteroosobowy":
-                        _tts.SpeakAsync("Wybrano apartament czteroosobowy");
+                        //_tts.SpeakAsync("Wybrano apartament czteroosobowy");
                         SuperDeluxeImgBtn.Command.Execute(null);
                         // ReadDescription_OnMouseDown(Room2Icon, null);
                         break;
                     case "Pomoc":
-                        _tts.SpeakAsync("Kliknij na pokój aby go zarezerwować");
+                        _tts.SpeakAsync("Powiedz jaki pokój chcesz zarezerwować");
                         break;
                     //TODO usunac z gramatyki dodac wstecz do pozostalych widokow
                     // case "Wstecz":
