@@ -13,7 +13,7 @@ namespace SWPSD_PROJEKT.DialogDriver.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202301221008203_InitialMigration"; }
+            get { return "202301221836182_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source

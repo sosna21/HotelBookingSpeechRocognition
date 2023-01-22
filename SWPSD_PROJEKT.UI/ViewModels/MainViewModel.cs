@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-using SWPSD_PROJEKT.UI.Commands;
-using SWPSD_PROJEKT.UI.Stores;
+﻿using SWPSD_PROJEKT.UI.Stores;
 
 namespace SWPSD_PROJEKT.UI.ViewModels;
 

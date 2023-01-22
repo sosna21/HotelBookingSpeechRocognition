@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SWPSD_PROJEKT.DialogDriver;
 
@@ -18,9 +16,9 @@ namespace SWPSD_PROJEKT.DialogDriver;
         }
         
         //Queries
-        public async Task<TEntity?> FindByIdAsync(int id, CancellationToken cancellationToken = default)
+        public TEntity? FindById(int id)
         {
-            return await _context.Set<TEntity>().FindAsync(cancellationToken, new object[]{ id });
+            return _context.Set<TEntity>().Find(new object[]{ id });
         }
 
         public IQueryable<TEntity> GetQueryable()
@@ -28,24 +26,15 @@ namespace SWPSD_PROJEKT.DialogDriver;
             return _context.Set<TEntity>().AsQueryable();
         }
         
-        public async Task<PaginatedList<TResult>> PaginatedListFindAsync<TResult>(int pageNumber, int pageSize, Func<TEntity, TResult> mapToResult, IQueryable<TEntity> customQuery, CancellationToken cancellationToken = default)
+        public bool Contains(Expression<Func<TEntity, bool>> predicate)
         {
-            var count = await customQuery.CountAsync(cancellationToken);
-            var items = await customQuery.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
-
-            return new PaginatedList<TResult>(items.Select(mapToResult), count, pageNumber, pageSize);
+            return _context.Set<TEntity>().Any(predicate);
         }
 
-        public async Task<bool> ContainsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        public int Count(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _context.Set<TEntity>().AnyAsync(predicate, cancellationToken);
+            return _context.Set<TEntity>().Where(predicate).Count();
         }
-
-        public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
-        {
-            return _context.Set<TEntity>().Where(predicate).CountAsync(cancellationToken);
-        }
-        
 
         // Commands
         public void Add(TEntity entity)

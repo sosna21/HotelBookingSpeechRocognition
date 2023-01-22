@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Autofac;
 using Microsoft.Speech.Recognition;
 using SWPSD_PROJEKT.ASR;
+using SWPSD_PROJEKT.DialogDriver;
+using SWPSD_PROJEKT.DialogDriver.Model;
 using SWPSD_PROJEKT.TTS;
 using SWPSD_PROJEKT.UI.ViewModels;
 
@@ -39,8 +41,23 @@ public partial class RoomDescription : UserControl
         _sre.LoadRoomDescriptionGrammar();
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
         _tts.SpeakAsync(RoomName.Text);
+        RoomDesc.Text = GetRoomDescription();
         //TODO load description from DB
         
+    }
+
+    private string GetRoomDescription()
+    {
+        var container = (Application.Current as App)!.Container;
+        var unitOfWork = container.Resolve<UnitOfWork>();
+        var roomName = RoomName.Text;
+        var room = unitOfWork.Repository<Room>().GetQueryable().FirstOrDefault(x => x.Name == roomName);
+        if (room != null)
+        {
+            var description = room.Description;
+            return description;
+        }
+        return "Nie znaleziono";
     }
 
     private void SpeechRecognized(RecognitionResult result)

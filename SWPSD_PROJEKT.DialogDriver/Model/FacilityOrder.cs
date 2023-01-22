@@ -7,5 +7,4 @@ public class FacilityOrder
     public int FacilityId { get; set; }
     public Order Order { get; set; }
     public Facility Facility { get; set; }
-    public int Quantity { get; set; }
 }
