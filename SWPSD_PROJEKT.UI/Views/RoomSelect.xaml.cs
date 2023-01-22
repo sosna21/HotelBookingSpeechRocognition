@@ -1,11 +1,14 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Autofac;
 using Microsoft.Speech.Recognition;
 using SWPSD_PROJEKT.ASR;
 using SWPSD_PROJEKT.TTS;
+using SWPSD_PROJEKT.UI.Models;
 using SWPSD_PROJEKT.UI.ViewModels;
+using Xceed.Wpf.AvalonDock.Controls;
 
 namespace SWPSD_PROJEKT.UI.Views;
 
@@ -84,6 +87,20 @@ public partial class RoomSelect : UserControl
                         break;
                 }
             }
+        }
+    }
+
+    private void ImgBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var btn = sender as Button;
+        var img = btn.FindLogicalChildren<Image>().FirstOrDefault();
+        var selectedRoom = btn.FindLogicalChildren<TextBlock>().FirstOrDefault()?.Text ?? "Not found";
+        var viewModel = (RoomSelectViewModel)DataContext;
+        if (viewModel.SelectRoomCommand.CanExecute(null) && viewModel.NavigateRoomDescriptionCommand.CanExecute(null))
+        {
+            viewModel.SelectedRoom = new Room {RoomName = selectedRoom, RoomImg = img};
+            viewModel.SelectRoomCommand.Execute(null);
+            viewModel.NavigateRoomDescriptionCommand.Execute(null);
         }
     }
 }

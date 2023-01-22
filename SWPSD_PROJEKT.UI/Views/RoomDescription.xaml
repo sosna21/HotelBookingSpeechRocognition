@@ -20,7 +20,7 @@
         
         <!-- Img Container -->
         <Grid Grid.Row="0" Grid.Column="0" Margin="20">
-            <Image Source="{StaticResource ComfortImg}" />
+            <Image Source="{Binding RoomImage.Source}" />
         </Grid>
         
         <!-- Description Container -->
@@ -32,9 +32,11 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             
-            <TextBlock Name="RoomName" Grid.Row="0" Style="{StaticResource Window1TextBlock}">Pokój dwuosobowy</TextBlock>
+            <!-- <TextBlock Name="RoomName" Grid.Row="0" Style="{StaticResource Window1TextBlock}">Pokój dwuosobowy</TextBlock> -->
+            <TextBlock Name="RoomName" Text="{Binding RoomName}" Grid.Row="0" Style="{StaticResource Window1TextBlock}" />
+            <!-- <TextBlock Name="RoomDesc" Grid.Row="1" Text="{Binding roomDescription}" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}"/> -->
             <TextBlock Name="RoomDesc" Grid.Row="1" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}">
-                W pokoju znajduje się biurko, telewizor z płaskim ekranem oraz prywatna łazienka. 
+                W pokoju znajduje się biurko, telewizor z płaskim ekranem oraz prywatna łazienka.
                 Pościel i ręczniki są zapewnione. Pokój wyposażony jest w szafę i bardzo wygodne łóżka.<LineBreak/>
                 <LineBreak/>
                 &#xb0; 24 m2<LineBreak/>

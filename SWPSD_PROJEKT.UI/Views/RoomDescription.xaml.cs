@@ -12,12 +12,16 @@ namespace SWPSD_PROJEKT.UI.Views;
 public partial class RoomDescription : UserControl
 {
     private SpeechRecognition _sre;
+
     private SpeechSynthesis _tts;
+    // public string roomDescription { get; set; } = "Opis pokoju taki że ojej";
+
 
     public RoomDescription()
     {
         InitializeComponent();
         Loaded += OnLoaded;
+        // this.DataContext = this;
         // Unloaded += OnUnloaded;
     }
 
@@ -35,6 +39,9 @@ public partial class RoomDescription : UserControl
         _sre.LoadRoomDescriptionGrammar();
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
         _tts.SpeakAsync(RoomName.Text);
+        //TODO load description from DB
+        // RoomDesc.Text =
+        //     "W pokoju znajduje się biurko, telewizor z płaskim ekranem oraz prywatna łazienka.\nPościel i ręczniki są zapewnione. Pokój wyposażony jest w szafę i bardzo wygodne łóżka.\n\n• 24 m2\n • łazienka z wanną\n• widok na miasto";
     }
 
     private void SpeechRecognized(RecognitionResult result)
@@ -51,13 +58,14 @@ public partial class RoomDescription : UserControl
                 switch (opcja)
                 {
                     case "Czytaj opis":
-                         ReadDescription();
+                        ReadDescription();
                         break;
                     case "Zarezerwuj":
                         ContinueBtn.Command.Execute(null);
                         break;
                     case "Pomoc":
-                        _tts.SpeakAsync("Powiedz Zarezerwuj jeśli chcesz przejść do rezerwacji tego pokoju lub wstecz jeśli chcesz przejśc do rezerwacji innego pokoju. Dodatkowo możesz poprosić o przeczytanie opisu pokoju komendą Czytaj opis i zastopować czytanie przyciskiem Zakończ czytanie opisu");
+                        _tts.SpeakAsync(
+                            "Powiedz Zarezerwuj jeśli chcesz przejść do rezerwacji tego pokoju lub wstecz jeśli chcesz przejśc do rezerwacji innego pokoju. Dodatkowo możesz poprosić o przeczytanie opisu pokoju komendą Czytaj opis i zastopować czytanie przyciskiem Zakończ czytanie opisu");
                         break;
                     case "Wstecz":
                         var viewModel = (RoomDescriptionViewModel) DataContext;
@@ -76,8 +84,9 @@ public partial class RoomDescription : UserControl
     {
         _tts.SpeakAsync(RoomDesc.Text);
     }
+
     private void StopBtn_OnClick(object sender, RoutedEventArgs e)
     {
-        _tts.TerminateSpeakSyn();
+        _tts.TerminateSynthesis();
     }
 }

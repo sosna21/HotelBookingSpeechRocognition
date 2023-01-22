@@ -118,25 +118,21 @@ public partial class ReservationDateSelect : UserControl
         if (string.IsNullOrWhiteSpace(ToDate.Text) || string.IsNullOrWhiteSpace(FromDate.Text))
             return "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
         return null;
+        //TODO check if date2 > date1 and if they can be parsed to DateTime before continue
     }
 
     private void BtnContinue_OnClick(object sender, RoutedEventArgs e)
     {
+        //TODO add validation
         var viewModel = (ReservationDateSelectViewModel) DataContext;
-        if (viewModel.NavigateFacilitiesSelectionCommand.CanExecute(null))
+        if (viewModel.NavigateFacilitiesSelectionCommand.CanExecute(null) &&
+            viewModel.SaveDatesCommand.CanExecute(null))
+        {
+            //TODO uncomment at end
+            // viewModel.FromDate = FromDate.Text;
+            // viewModel.ToDate = ToDate.Text;
+            // viewModel.SaveDatesCommand.Execute(null);
             viewModel.NavigateFacilitiesSelectionCommand.Execute(null);
-        
-        //TODO uncomment at end
-        // var errors = ValidateForm();
-        // if (string.IsNullOrEmpty(errors))
-        // {
-        //     var viewModel = (HomeViewModel) DataContext;
-        //     if (viewModel.NavigateFacilitiesSelectionCommand.CanExecute(null))
-        //         viewModel.NavigateFacilitiesSelectionCommand.Execute(null);
-        // }
-        // else
-        // {
-        //     //TODO add to error msg 
-        // }
+        }
     }
 }

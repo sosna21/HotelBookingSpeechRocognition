@@ -57,6 +57,9 @@
             <fa:ImageAwesome MouseDown="SpeechIcon_OnClick" Icon="Microphone" Foreground="#FFFF7400"
                              x:Name="SpeechIcon" Height="50" Width="50"
                              Margin="10 5 10 10" />
+            <fa:ImageAwesome MouseDown="SynthesisIcon_OnClick" Icon="Headphones" Foreground="#FFFF7400"
+                             x:Name="SynthesisIcon" Height="50" Width="50"
+                             Margin="10 5 10 10" />
             <StackPanel VerticalAlignment="Center">
                 <TextBlock>
                     Aby uzyskać wskazówki jak poprawnie wypełnić formularz powiedz POMOC<LineBreak />
