@@ -102,10 +102,10 @@ public partial class ReservationDateSelect : UserControl
                 var year = result.Semantics["Rok"].Value.ToString();
                 ToDate.Text = $"{day} {month} {year}";
             }
-            else if (result.Grammar.RuleName == "rootNumer")
-            {
-                var number = result.Semantics["Numer"].Value.ToString();
-            }
+            // else if (result.Grammar.RuleName == "rootNumer")
+            // {
+            //     var number = result.Semantics["Numer"].Value.ToString();
+            // }
         }
         else
         {

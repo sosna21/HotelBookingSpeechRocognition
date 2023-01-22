@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using Microsoft.Speech.Recognition;
 using Microsoft.Speech.Recognition.SrgsGrammar;
 using SWPSD_PROJEKT.DialogDriver;
@@ -58,6 +60,12 @@ public class SpeechRecognition
         var numberGrammar = CreateNumberGrammar();
         var roomSelectGrammar = CreateRoomSelectGrammar();
         var roomDescriptionGrammar = CreateRoomDescriptionGrammar();
+        var nameSelectGrammar = CreateNameSelectGrammar();
+        var surnameSelectGrammar = CreateSurnameGrammar();
+        var telephoneGrammar = CreateTelGrammar();
+        var userDataGrammar = CreateUserDataGrammar();
+        var facilityGrammar = CreateFacilitiesGrammar();
+
 
         _grammarsDict.Add(GrammarName.HomePageSystemGrammar, homePageSystemGrammar);
         _grammarsDict.Add(GrammarName.CalendarGrammar1, calendarGrammar1);
@@ -65,12 +73,172 @@ public class SpeechRecognition
         _grammarsDict.Add(GrammarName.NumberGrammar, numberGrammar);
         _grammarsDict.Add(GrammarName.RoomSelectGrammar, roomSelectGrammar);
         _grammarsDict.Add(GrammarName.RoomDescriptionGrammar, roomDescriptionGrammar);
+        _grammarsDict.Add(GrammarName.NameSelectGrammar, nameSelectGrammar);
+        _grammarsDict.Add(GrammarName.SurnameSelectGrammar, surnameSelectGrammar);
+        _grammarsDict.Add(GrammarName.TelephoneGrammar, telephoneGrammar);
+        _grammarsDict.Add(GrammarName.UserDataGrammar, userDataGrammar);
+        _grammarsDict.Add(GrammarName.FacilityGrammar, facilityGrammar);
+    }
+
+
+    // private Grammar createChooseGrammar()
+    // {
+    //     SrgsRule chooseOption = new SrgsRule("ChooseFacility");
+    //     chooseOption.Scope = SrgsRuleScope.Public;
+    //
+    //     SrgsOneOf option = new SrgsOneOf(new SrgsItem[]
+    //     {
+    //         new SrgsItem("Tak"),
+    //         new SrgsItem("Nie")
+    //     });
+    //     chooseOption.Add(option);
+    //     
+    //     SrgsDocument
+    // }
+
+    private Grammar CreateFacilitiesGrammar()
+    {
+        SrgsRule selectOption = new SrgsRule("SelectFacitility");
+        selectOption.Scope = SrgsRuleScope.Public;
+
+        SrgsOneOf facitility = new SrgsOneOf(new SrgsItem[]
+        {
+            new SrgsItem("Łóżko"),
+            new SrgsItem("Śniadanie"),
+            new SrgsItem("Zwierzęta"),
+            new SrgsItem("Barek"),
+            new SrgsItem("Dostawka"),
+            new SrgsItem("Balkon")
+        });
+        selectOption.Add(facitility);
+
+        SrgsDocument docFacility = new SrgsDocument();
+        docFacility.Root = selectOption;
+        docFacility.Culture = new CultureInfo("pl-PL");
+        docFacility.Rules.Add(selectOption);
+
+        Grammar grammar = new Grammar(docFacility, "SelectFacitility");
+        return grammar;
+    }
+
+
+    private Grammar CreateUserDataGrammar()
+    {
+        SrgsRule userDataSelectOption = new SrgsRule("UserDataSelect");
+        SrgsOneOf field = new SrgsOneOf(new SrgsItem[]
+        {
+            new SrgsItem("Imie"),
+            new SrgsItem("Nazwisko"),
+            new SrgsItem("Telefon"),
+            new SrgsItem("Numer karty płatniczej"),
+            new SrgsItem("Wyczyść"),
+            new SrgsItem("Dalej"),
+            new SrgsItem("Wstecz"),
+            new SrgsItem("Pomoc")
+        });
+        userDataSelectOption.Add(field);
+
+        SrgsRule rootUserDataSelect = new SrgsRule("rootUserDataSelect");
+        rootUserDataSelect.Scope = SrgsRuleScope.Public;
+        rootUserDataSelect.Add(new SrgsRuleRef(userDataSelectOption, "UserDataSelect"));
+
+        SrgsDocument docUserDataOpction = new SrgsDocument();
+        docUserDataOpction.Root = userDataSelectOption;
+        docUserDataOpction.Culture = new CultureInfo("pl-PL");
+        docUserDataOpction.Rules.Add(userDataSelectOption, rootUserDataSelect);
+
+        Grammar gramatyka = new Grammar(docUserDataOpction, "rootUserDataSelect");
+        return gramatyka;
+    }
+
+    private Grammar CreateTelGrammar()
+    {
+        SrgsRule ruleLiczebnik = GetSrgsRuleNumbers();
+
+        SrgsRule rootRule = new SrgsRule("rootTel");
+        rootRule.Scope = SrgsRuleScope.Public;
+
+        for (int i = 0; i < 9; i++)
+        {
+            rootRule.Add(new SrgsRuleRef(ruleLiczebnik, $"LICZBA{i}"));
+        }
+
+        SrgsDocument docTel = new SrgsDocument();
+        docTel.Root = rootRule;
+        docTel.Culture = new CultureInfo("pl-PL");
+        docTel.Rules.Add(new SrgsRule[]
+            {
+                rootRule,
+                ruleLiczebnik
+            }
+        );
+
+        Grammar gramatyka = new Grammar(docTel, "rootTel");
+        return gramatyka;
+    }
+
+    private SrgsRule GetSrgsRuleNumbers()
+    {
+        SrgsRule ruleLiczebnik = new SrgsRule("Liczba");
+        SrgsOneOf liczebnik = new SrgsOneOf(new SrgsItem[]
+        {
+            new SrgsItem("zero"),
+            new SrgsItem("jeden"),
+            new SrgsItem("dwa"),
+            new SrgsItem("trzy"),
+            new SrgsItem("cztery"),
+            new SrgsItem("pięć"),
+            new SrgsItem("sześć"),
+            new SrgsItem("siedem"),
+            new SrgsItem("osiem"),
+            new SrgsItem("dziewięć")
+        });
+        ruleLiczebnik.Add(liczebnik);
+        return ruleLiczebnik;
+    }
+
+    private Grammar CreateSurnameGrammar()
+    {
+        SrgsRule ruleSurname = new SrgsRule("surnameSelect");
+        ruleSurname.Scope = SrgsRuleScope.Public;
+
+        var surnames = File.ReadAllLines("Assets/Nazwiska.txt");
+
+        SrgsOneOf surname = new SrgsOneOf(surnames.Select(n => new SrgsItem(n)).ToArray());
+        ruleSurname.Add(surname);
+
+        SrgsDocument docSurnameSelect = new SrgsDocument();
+        docSurnameSelect.Root = ruleSurname;
+        docSurnameSelect.Culture = new CultureInfo("pl-PL");
+        docSurnameSelect.Rules.Add(ruleSurname);
+
+        Grammar gramatyka = new Grammar(docSurnameSelect, "surnameSelect");
+        return gramatyka;
+    }
+
+    private Grammar CreateNameSelectGrammar()
+    {
+        SrgsRule ruleName = new SrgsRule("NameSelect");
+        ruleName.Scope = SrgsRuleScope.Public;
+
+        var names = File.ReadAllLines("Assets/Imiona.txt");
+
+        SrgsOneOf name = new SrgsOneOf(names.Select(n => new SrgsItem(n)).ToArray());
+        ruleName.Add(name);
+
+        SrgsDocument docNameSelect = new SrgsDocument();
+        docNameSelect.Root = ruleName;
+        docNameSelect.Culture = new CultureInfo("pl-PL");
+        docNameSelect.Rules.Add(ruleName);
+
+        Grammar gramatyka = new Grammar(docNameSelect, "NameSelect");
+        return gramatyka;
     }
 
     private Grammar CreateRoomSelectGrammar()
     {
         SrgsRule option = new SrgsRule("Opcja");
-        
+
         SrgsOneOf options = new SrgsOneOf(new SrgsItem[]
         {
             new("Pokój dwuosobowy"),
@@ -90,17 +258,17 @@ public class SpeechRecognition
         docWeight.Root = rootRoomSelect;
         docWeight.Culture = new CultureInfo("pl-PL");
         docWeight.Rules.Add(new SrgsRule[]
-            {rootRoomSelect, option}
+            { rootRoomSelect, option }
         );
 
         Grammar gramatyka = new Grammar(docWeight, "rootRoomSelect");
         return gramatyka;
     }
-    
+
     private Grammar CreateRoomDescriptionGrammar()
     {
         SrgsRule option = new SrgsRule("Opcja");
-        
+
         SrgsOneOf options = new SrgsOneOf(new SrgsItem[]
         {
             new("Czytaj opis"),
@@ -118,14 +286,14 @@ public class SpeechRecognition
         docWeight.Root = rootRoomDescription;
         docWeight.Culture = new CultureInfo("pl-PL");
         docWeight.Rules.Add(new SrgsRule[]
-            {rootRoomDescription, option}
+            { rootRoomDescription, option }
         );
 
         Grammar gramatyka = new Grammar(docWeight, "rootRoomDescription");
         return gramatyka;
     }
-    
-    
+
+
     private Grammar CreateNumberGrammar()
     {
         SrgsRule rulenumber = new SrgsRule("Numer");
@@ -147,7 +315,7 @@ public class SpeechRecognition
         docWeight.Root = rootNumber;
         docWeight.Culture = new CultureInfo("pl-PL");
         docWeight.Rules.Add(new SrgsRule[]
-            {rootNumber, rulenumber}
+            { rootNumber, rulenumber }
         );
 
         Grammar gramatyka = new Grammar(docWeight, "rootNumer");
@@ -210,7 +378,7 @@ public class SpeechRecognition
         docBirthDate.Root = rootBirthDate;
         docBirthDate.Culture = new CultureInfo("pl-PL");
         docBirthDate.Rules.Add(new SrgsRule[]
-            {rootBirthDate, ruleDay, ruleMonth, ruleYear}
+            { rootBirthDate, ruleDay, ruleMonth, ruleYear }
         );
 
         Grammar gramatyka = new Grammar(docBirthDate, rootName);
@@ -265,7 +433,27 @@ public class SpeechRecognition
     }*/
 
     //TODO secure grammars on loading and deleting
-    
+
+    public void LoadUserDataGrammar()
+    {
+        _sre.LoadGrammarAsync(_grammarsDict[GrammarName.UserDataGrammar]);
+    }
+
+    public void LoadNameSelectGrammar()
+    {
+        _sre.LoadGrammarAsync(_grammarsDict[GrammarName.NameSelectGrammar]);
+    }
+
+    public void LoadSurnameSelectGrammar()
+    {
+        _sre.LoadGrammarAsync(_grammarsDict[GrammarName.SurnameSelectGrammar]);
+    }
+
+    public void LoadTelephoneGrammar()
+    {
+        _sre.LoadGrammarAsync((_grammarsDict[GrammarName.TelephoneGrammar]));
+    }
+
     public void LoadNumberGrammar()
     {
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.NumberGrammar]);
@@ -285,7 +473,7 @@ public class SpeechRecognition
     {
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.CalendarGrammar2]);
     }
-    
+
     public void LoadRoomSelectGrammar()
     {
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.RoomSelectGrammar]);
@@ -295,7 +483,7 @@ public class SpeechRecognition
     {
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.RoomDescriptionGrammar]);
     }
-    
+
     public void UnloadCalendarGrammar1()
     {
         _sre.UnloadGrammar(_grammarsDict[GrammarName.CalendarGrammar1]);
