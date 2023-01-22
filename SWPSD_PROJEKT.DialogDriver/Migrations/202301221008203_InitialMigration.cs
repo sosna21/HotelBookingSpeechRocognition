@@ -59,7 +59,6 @@
                         Name = c.String(),
                         Surname = c.String(),
                         BirthYear = c.Int(nullable: false),
-                        Email = c.String(),
                         PhoneNumber = c.String(),
                         CreditCardNumber = c.String(),
                     })
@@ -70,22 +69,12 @@
                 c => new
                     {
                         RoomId = c.Int(nullable: false, identity: true),
-                        RoomTypeId = c.Int(nullable: false),
+                        Name = c.String(),
+                        Description = c.String(),
                         Capacity = c.Int(nullable: false),
                         PricePerNight = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
-                .PrimaryKey(t => t.RoomId)
-                .ForeignKey("dbo.RoomTypes", t => t.RoomTypeId, cascadeDelete: true)
-                .Index(t => t.RoomTypeId);
-            
-            CreateTable(
-                "dbo.RoomTypes",
-                c => new
-                    {
-                        RoomTypeId = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                    })
-                .PrimaryKey(t => t.RoomTypeId);
+                .PrimaryKey(t => t.RoomId);
             
         }
         
@@ -93,15 +82,12 @@
         {
             DropForeignKey("dbo.FacilityOrders", "OrderId", "dbo.Orders");
             DropForeignKey("dbo.Orders", "RoomId", "dbo.Rooms");
-            DropForeignKey("dbo.Rooms", "RoomTypeId", "dbo.RoomTypes");
             DropForeignKey("dbo.Orders", "GuestId", "dbo.Guests");
             DropForeignKey("dbo.FacilityOrders", "FacilityId", "dbo.Facilities");
-            DropIndex("dbo.Rooms", new[] { "RoomTypeId" });
             DropIndex("dbo.Orders", new[] { "GuestId" });
             DropIndex("dbo.Orders", new[] { "RoomId" });
             DropIndex("dbo.FacilityOrders", new[] { "FacilityId" });
             DropIndex("dbo.FacilityOrders", new[] { "OrderId" });
-            DropTable("dbo.RoomTypes");
             DropTable("dbo.Rooms");
             DropTable("dbo.Guests");
             DropTable("dbo.Orders");

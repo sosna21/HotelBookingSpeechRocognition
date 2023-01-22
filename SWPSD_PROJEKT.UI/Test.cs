@@ -16,9 +16,11 @@ public class Test
 
     public async Task AddRoom()
     {
-        var room = new RoomType{Name = "Name"};
-        _unitOfWork.Repository<RoomType>().Add(room);
+        _unitOfWork.Repository<Room>().Add(new Room{Name = "Name", Capacity = 5, Description = "Description", PricePerNight = 125});
         await _unitOfWork.Complete();
-        
+    }
+    public async Task InitializeDb()
+    {
+        //TODO Add data to db
     }
 }

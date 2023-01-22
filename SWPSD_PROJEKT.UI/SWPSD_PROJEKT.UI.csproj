@@ -121,7 +121,15 @@
         </ApplicationDefinition>
         <Compile Include="Commands\CommandBase.cs" />
         <Compile Include="Commands\NavigateCommand.cs" />
+        <Compile Include="Commands\SaveDatesCommand.cs" />
+        <Compile Include="Commands\SaveFacilities.cs" />
+        <Compile Include="Commands\SelectRoomCommand.cs" />
+        <Compile Include="Models\Facilities.cs" />
+        <Compile Include="Models\ReservationDates.cs" />
+        <Compile Include="Models\Room.cs" />
         <Compile Include="Stores\NavigationStore.cs" />
+        <Compile Include="Stores\ReservationDateStore.cs" />
+        <Compile Include="Stores\RoomStore.cs" />
         <Compile Include="Test.cs" />
         <Compile Include="ViewModels\FacilitiesSelectionViewModel.cs" />
         <Compile Include="ViewModels\ReservationDateSelectViewModel.cs" />

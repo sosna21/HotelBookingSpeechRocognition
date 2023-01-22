@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SWPSD_PROJEKT.UI.Views"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="900">
+             d:DesignHeight="600" d:DesignWidth="1200">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -17,68 +17,73 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!-- <TextBox Text="{Binding SelectedRoom}"></TextBox> -->
+
         <!-- Img 1 Container -->
         <Grid Grid.Row="0" Grid.Column="0" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-
-            <Button Name="ComfortImgBtn" Command="{Binding NavigateRoomDescriptionCommand}" Background="Transparent"
+            <Button Click="ImgBtn_OnClick" Name="ComfortImgBtn" Background="Transparent"
                     BorderThickness="0"
                     Margin="120 5">
-                <Image Source="{StaticResource ComfortImg}" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource ComfortImg}" />
+                    <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Pokój dwuosobowy</TextBlock>
+                </Grid>
             </Button>
-
-            <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Pokój dwuosobowy</TextBlock>
         </Grid>
 
         <!-- Img 2 Container -->
         <Grid Grid.Row="0" Grid.Column="1" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
 
-            <Button Name="ApartamentImgBtn" Command="{Binding NavigateRoomDescriptionCommand}" Background="Transparent"
+            <Button Click="ImgBtn_OnClick" Name="ApartamentImgBtn" Background="Transparent"
                     BorderThickness="0"
                     Margin="120 5">
-                <Image Source="{StaticResource ApartamentImg}" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource ApartamentImg}" />
+                    <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Pokój trzyosobowy</TextBlock>
+                </Grid>
             </Button>
-            <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Pokój trzyosobowy</TextBlock>
+
 
         </Grid>
 
         <!-- Img 3 Container -->
         <Grid Grid.Row="1" Grid.Column="0" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Button Name="DeluxeImgBtn" Command="{Binding NavigateRoomDescriptionCommand}" Background="Transparent"
-                    BorderThickness="0"
-                    Margin="120 5">
-                <Image Source="{StaticResource DeluxeImg}" />
+            <Button Click="ImgBtn_OnClick" Name="DeluxeImgBtn" Background="Transparent"
+                    BorderThickness="0" Margin="120 5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource DeluxeImg}" />
+                    <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Pokój czteroosobowy</TextBlock>
+                </Grid>
             </Button>
-            <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Pokój czteroosobowy</TextBlock>
+
 
         </Grid>
 
         <!-- Img 4 Container -->
         <Grid Grid.Row="1" Grid.Column="1" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Button Name="SuperDeluxeImgBtn" Command="{Binding NavigateRoomDescriptionCommand}"
-                    Background="Transparent" BorderThickness="0"
-                    Margin="120 5">
-                <Image Source="{StaticResource SuperDeluxeImg}" />
+            <Button Click="ImgBtn_OnClick" Name="SuperDeluxeImgBtn"
+                    Background="Transparent" BorderThickness="0" Margin="120 5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource SuperDeluxeImg}" />
+                    <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Apartament czteroosobowy</TextBlock>
+                </Grid>
             </Button>
-            <TextBlock Grid.Row="1" Style="{StaticResource Window1TextBlock}">Apartament czteroosobowy</TextBlock>
-
         </Grid>
     </Grid>
 </UserControl>
