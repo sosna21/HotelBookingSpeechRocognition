@@ -9,8 +9,8 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="MainWindow"
-        MinHeight="650" MinWidth="740"
-        Height="720" Width="1280">
+        MinHeight="850" MinWidth="1280"
+        Height="850" Width="1280">
     <Grid Background="Beige">
 
         <Grid.RowDefinitions>

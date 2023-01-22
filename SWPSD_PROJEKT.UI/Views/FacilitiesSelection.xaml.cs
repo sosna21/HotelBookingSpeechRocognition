@@ -53,7 +53,7 @@ public partial class FacilitiesSelection : UserControl
                 string opcja = result.Semantics["UserDataSelect"].Value.ToString();
                 switch (opcja)
                 {
-                    case "Imie":
+                    case "Imię":
                         TxtName.Focus();
                         _tts.SpeakAsync($"Wybrano pole {opcja} podaj wartość");
                         _sre.UnloadAllGrammar();

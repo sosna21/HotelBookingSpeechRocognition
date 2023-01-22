@@ -109,22 +109,6 @@ public class SpeechRecognition
         return gramatyka;
     }
 
-
-    // private Grammar CreateChooseFacilityGrammar()
-    // {
-    //     SrgsRule chooseOption = new SrgsRule("ChooseFacility");
-    //     chooseOption.Scope = SrgsRuleScope.Public;
-    //
-    //     SrgsOneOf option = new SrgsOneOf(new SrgsItem[]
-    //     {
-    //         new SrgsItem("Tak"),
-    //         new SrgsItem("Nie")
-    //     });
-    //     chooseOption.Add(option);
-    //     
-    //     SrgsDocument
-    // }
-
     private Grammar CreateFacilitiesGrammar()
     {
         SrgsRule selectOption = new SrgsRule("FacilityOption");
@@ -169,7 +153,7 @@ public class SpeechRecognition
         SrgsRule userDataSelectOption = new SrgsRule("UserDataSelect");
         SrgsOneOf field = new SrgsOneOf(new SrgsItem[]
         {
-            new SrgsItem("Imie"),
+            new SrgsItem("Imię"),
             new SrgsItem("Nazwisko"),
             new SrgsItem("Telefon"),
             new SrgsItem("Numer karty płatniczej"),
@@ -436,7 +420,7 @@ public class SpeechRecognition
             new("Data zameldowania"),
             new("Data wymeldowania"),
             new("Kontynuuj"),
-            new("Reset"),
+            new("Wyczyść"),
             new("Wstecz"),
             new("Pomoc")
         });
@@ -445,7 +429,7 @@ public class SpeechRecognition
         SrgsRule systemRule = new SrgsRule("homePageSystemGrammar");
         systemRule.Scope = SrgsRuleScope.Public;
 
-        systemRule.Add(new SrgsItem(0, 1, "Wprowadz"));
+        systemRule.Add(new SrgsItem(0, 1, "Wprowadź"));
         systemRule.Add(new SrgsItem(0, 1, "Pole"));
         systemRule.Add(new SrgsRuleRef(optionRule, "Opcja"));
 
