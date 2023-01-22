@@ -58,7 +58,7 @@
             <TextBox Grid.Row="2" Grid.Column="1" Name="TxtSurname" />
             <TextBox Grid.Row="3" Grid.Column="1" Name="TxtTelephone" />
             <!-- <TextBox Grid.Row="4" Grid.Column="1" /> -->
-            <TextBox Grid.Row="5" Grid.Column="1" Name="TxtCardNumber" />
+            <TextBox Grid.Row="5" Grid.Column="1" Name="TxtCreditCardNumber" />
             <TextBlock Grid.Row="7" Grid.Column="1" />
             <TextBlock Grid.Row="8" Grid.Column="1" />
 

@@ -65,7 +65,7 @@ public partial class ReservationDateSelect : UserControl
                     case "Kontynuuj":
                         var error = ValidateForm();
                         if (string.IsNullOrEmpty(error))
-                            BtnContinue.Command.Execute(null);
+                            BtnContinue_OnClick(null, null);
                         else
                             _tts.SpeakAsync(error);
                         //TODO add error msg control and add error text to it

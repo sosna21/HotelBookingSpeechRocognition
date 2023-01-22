@@ -65,6 +65,7 @@ public class SpeechRecognition
         var telephoneGrammar = CreateTelGrammar();
         var userDataGrammar = CreateUserDataGrammar();
         var facilityGrammar = CreateFacilitiesGrammar();
+        var creditCardGrammar = CreateCreditCardGrammar();
 
 
         _grammarsDict.Add(GrammarName.HomePageSystemGrammar, homePageSystemGrammar);
@@ -78,6 +79,33 @@ public class SpeechRecognition
         _grammarsDict.Add(GrammarName.TelephoneGrammar, telephoneGrammar);
         _grammarsDict.Add(GrammarName.UserDataGrammar, userDataGrammar);
         _grammarsDict.Add(GrammarName.FacilityGrammar, facilityGrammar);
+        _grammarsDict.Add(GrammarName.CreditCardGrammar, creditCardGrammar);
+    }
+
+    private Grammar CreateCreditCardGrammar()
+    {
+        SrgsRule ruleLiczebnik = GetSrgsRuleNumbers();
+
+        SrgsRule rootRule = new SrgsRule("rootCreditCard");
+        rootRule.Scope = SrgsRuleScope.Public;
+
+        for (int i = 0; i < 16; i++)
+        {
+            rootRule.Add(new SrgsRuleRef(ruleLiczebnik, $"LICZBA{i}"));
+        }
+
+        SrgsDocument docCreditCardNumber = new SrgsDocument();
+        docCreditCardNumber.Root = rootRule;
+        docCreditCardNumber.Culture = new CultureInfo("pl-PL");
+        docCreditCardNumber.Rules.Add(new SrgsRule[]
+            {
+                rootRule,
+                ruleLiczebnik
+            }
+        );
+
+        Grammar gramatyka = new Grammar(docCreditCardNumber, "rootCreditCard");
+        return gramatyka;
     }
 
 
@@ -482,6 +510,11 @@ public class SpeechRecognition
     public void LoadRoomDescriptionGrammar()
     {
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.RoomDescriptionGrammar]);
+    }
+    
+    public void LoadCreditCardGrammar()
+    {
+        _sre.LoadGrammarAsync(_grammarsDict[GrammarName.CreditCardGrammar]);
     }
 
     public void UnloadCalendarGrammar1()

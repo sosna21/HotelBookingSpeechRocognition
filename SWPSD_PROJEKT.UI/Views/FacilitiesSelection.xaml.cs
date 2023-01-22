@@ -37,14 +37,13 @@ public partial class FacilitiesSelection : UserControl
         TxtName.Text = "";
         TxtSurname.Text = "";
         TxtTelephone.Text = "";
-        TxtCardNumber.Text = "";
+        TxtCreditCardNumber.Text = "";
     }
 
     private void SpeechRecognized(RecognitionResult result)
     {
         if (DataContext == null) return;
         float confidence = result.Confidence;
-        var txt = result.Text;
         // _tts.SpeakAsync(confidence.ToString("0.00"));
         if (confidence > 0.5)
         {
@@ -74,6 +73,13 @@ public partial class FacilitiesSelection : UserControl
                         _sre.LoadTelephoneGrammar();
                         _sre.LoadUserDataGrammar();
                         break;
+                    case "Numer karty płatniczej":
+                        TxtCreditCardNumber.Focus();
+                        _tts.SpeakAsync($"Wybrano pole {opcja} podaj wartość");
+                        _sre.UnloadAllGrammar();
+                        _sre.LoadCreditCardGrammar();
+                        _sre.LoadUserDataGrammar();
+                        break;
                     case "Wyczyść":
                         Reset();
                         _tts.SpeakAsync("Nastąpiło zresetowanie formularza");
@@ -97,10 +103,12 @@ public partial class FacilitiesSelection : UserControl
                         break;
                 }
             }
-            // else if (re)
-            // {
-            //     
-            // }
+            else if (result.Grammar.RuleName == "rootCreditCard")
+            {
+                var text = result.Text;
+                //Parse to numbers jeden jedn dwa -> 112 
+                
+            }
         }
     }
 
@@ -109,7 +117,7 @@ public partial class FacilitiesSelection : UserControl
     {
         if (string.IsNullOrWhiteSpace(TxtName.Text) || string.IsNullOrWhiteSpace(TxtSurname.Text)
                                                     || string.IsNullOrWhiteSpace(TxtTelephone.Text) ||
-                                                    string.IsNullOrWhiteSpace(TxtCardNumber.Text))
+                                                    string.IsNullOrWhiteSpace(TxtCreditCardNumber.Text))
             return "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
         return null;
     }

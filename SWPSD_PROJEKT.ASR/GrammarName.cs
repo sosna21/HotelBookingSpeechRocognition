@@ -12,7 +12,8 @@ public enum GrammarName
     SurnameSelectGrammar,
     TelephoneGrammar,
     UserDataGrammar,
-    FacilityGrammar
+    FacilityGrammar,
+    CreditCardGrammar
 
 }
 
