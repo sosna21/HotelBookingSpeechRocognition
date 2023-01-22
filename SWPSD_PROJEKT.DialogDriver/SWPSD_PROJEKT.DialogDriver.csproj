@@ -88,9 +88,9 @@
         <Compile Include="HotelContext.cs" />
         <Compile Include="IDialogControl.cs" />
         <Compile Include="IRepository.cs" />
-        <Compile Include="Migrations\202301221008203_InitialMigration.cs" />
-        <Compile Include="Migrations\202301221008203_InitialMigration.Designer.cs">
-          <DependentUpon>202301221008203_InitialMigration.cs</DependentUpon>
+        <Compile Include="Migrations\202301221836182_InitialMigration.cs" />
+        <Compile Include="Migrations\202301221836182_InitialMigration.Designer.cs">
+          <DependentUpon>202301221836182_InitialMigration.cs</DependentUpon>
         </Compile>
         <Compile Include="Migrations\Configuration.cs" />
         <Compile Include="Model\Facility.cs" />
@@ -114,8 +114,8 @@
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-      <EmbeddedResource Include="Migrations\202301221008203_InitialMigration.resx">
-        <DependentUpon>202301221008203_InitialMigration.cs</DependentUpon>
+      <EmbeddedResource Include="Migrations\202301221836182_InitialMigration.resx">
+        <DependentUpon>202301221836182_InitialMigration.cs</DependentUpon>
       </EmbeddedResource>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

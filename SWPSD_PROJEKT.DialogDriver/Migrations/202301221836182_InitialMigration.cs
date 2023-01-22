@@ -24,7 +24,6 @@
                         FacilityOrderId = c.Int(nullable: false, identity: true),
                         OrderId = c.Int(nullable: false),
                         FacilityId = c.Int(nullable: false),
-                        Quantity = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.FacilityOrderId)
                 .ForeignKey("dbo.Facilities", t => t.FacilityId, cascadeDelete: true)
@@ -41,7 +40,6 @@
                         GuestId = c.Int(nullable: false),
                         FromDate = c.DateTime(nullable: false),
                         ToDate = c.DateTime(nullable: false),
-                        NumberOfPeople = c.Int(nullable: false),
                         Days = c.Int(nullable: false),
                         TotalPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
@@ -58,7 +56,6 @@
                         GuestId = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Surname = c.String(),
-                        BirthYear = c.Int(nullable: false),
                         PhoneNumber = c.String(),
                         CreditCardNumber = c.String(),
                     })

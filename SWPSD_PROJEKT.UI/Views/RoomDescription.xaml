@@ -34,10 +34,15 @@
             <!-- <TextBlock Name="RoomName" Grid.Row="0" Style="{StaticResource Window1TextBlock}">Pokój dwuosobowy</TextBlock> -->
             <TextBlock Name="RoomName" Text="{Binding RoomName}" Grid.Row="0" Style="{StaticResource Window1TextBlock}" />
             <!-- <TextBlock Name="RoomDesc" Grid.Row="1" Text="{Binding roomDescription}" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}"/> -->
-            <TextBlock Name="RoomDesc" Grid.Row="1" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}">
-                W pokoju znajduje się biurko, telewizor z płaskim ekranem oraz prywatna łazienka.
-                Pościel i ręczniki są zapewnione. Pokój wyposażony jest w szafę i bardzo wygodne łóżka.<LineBreak/>
-            </TextBlock>
+            <TextBlock Name="RoomDesc" Grid.Row="1" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}" />
+            <!-- <TextBlock Name="RoomDesc" Grid.Row="1" TextWrapping="Wrap" Padding="5" Margin="5 20"  Style="{StaticResource {x:Type TextBlock}}"> -->
+            <!--     W pokoju znajduje się biurko, telewizor z płaskim ekranem oraz prywatna łazienka. -->
+            <!--     Pościel i ręczniki są zapewnione. Pokój wyposażony jest w szafę i bardzo wygodne łóżka.<LineBreak/> -->
+            <!--     <LineBreak/> -->
+            <!--     &#xb0; 24 m2<LineBreak/> -->
+            <!--     &#xb0; łazienka z wanną<LineBreak/> -->
+            <!--     &#xb0; widok na miasto<LineBreak/> -->
+            <!-- </TextBlock> -->
             <Button Name="ContinueBtn" Grid.Row="2" Background="RoyalBlue" Foreground="WhiteSmoke" Width="180"
                     Command="{Binding NavigateReservationDateSelectCommand}">Zarezerwuj</Button>
         </Grid>

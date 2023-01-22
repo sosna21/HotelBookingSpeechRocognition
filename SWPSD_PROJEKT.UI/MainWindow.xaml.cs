@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Autofac;
@@ -7,6 +8,7 @@ using Microsoft.Speech.Recognition;
 using Microsoft.Speech.Synthesis;
 using SWPSD_PROJEKT.ASR;
 using SWPSD_PROJEKT.DialogDriver;
+using SWPSD_PROJEKT.DialogDriver.Model;
 using SWPSD_PROJEKT.TTS;
 
 namespace SWPSD_PROJEKT.UI
@@ -31,12 +33,20 @@ namespace SWPSD_PROJEKT.UI
             // var container = (Application.Current as App)!.Container;
             // var test = container.Resolve<Test>();
             // test.AddRoom().ConfigureAwait(false).GetAwaiter().GetResult();
-
             var container = (Application.Current as App)!.Container;
+            container.Resolve<UnitOfWork>().Repository<Room>().CountAsync(x => true);
             _dialogControl = container.Resolve<DialogControl>();
             _sre = container.Resolve<SpeechRecognition>();
             _tts = container.Resolve<SpeechSynthesis>();
             _sre.AddAudioStateChangeEvent(SRE_AudioStateChanged);
+            InitializeDb();
+        }
+
+        private async Task InitializeDb()
+        {
+            var container = (Application.Current as App)!.Container;
+            var test = container.Resolve<Test>();
+            await test.AddRoom();
         }
         
         private void SRE_AudioStateChanged(AudioState audioState)

@@ -1,11 +1,18 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using Autofac;
 using Microsoft.Speech.Recognition;
 using SWPSD_PROJEKT.ASR;
+using SWPSD_PROJEKT.DialogDriver;
+using SWPSD_PROJEKT.DialogDriver.Model;
 using SWPSD_PROJEKT.TTS;
+using SWPSD_PROJEKT.UI.Models;
 using SWPSD_PROJEKT.UI.ViewModels;
+using Room = SWPSD_PROJEKT.DialogDriver.Model.Room;
 
 namespace SWPSD_PROJEKT.UI.Views;
 
@@ -99,6 +106,7 @@ public partial class FacilitiesSelection : UserControl
                         if (string.IsNullOrEmpty(error))
                             ContinueBtn.Command.Execute(null);
                         break;
+
 
                     default:
                         _tts.SpeakAsync("Nierozpoznana komenda");
@@ -222,6 +230,7 @@ public partial class FacilitiesSelection : UserControl
         }
     }
 
+
     private string ValidateForm()
     {
         if (string.IsNullOrWhiteSpace(TxtName.Text) || string.IsNullOrWhiteSpace(TxtSurname.Text)
@@ -235,7 +244,7 @@ public partial class FacilitiesSelection : UserControl
     {
         Reset();
     }
-
+    
     private void ContinueBtn_OnClick(object sender, RoutedEventArgs e)
     {
         var viewModel = (FacilitiesSelectionViewModel)DataContext;
@@ -244,9 +253,49 @@ public partial class FacilitiesSelection : UserControl
         {
             viewModel.SaveFacilities.Execute(null);
             viewModel.NavigateSummaryOrderCommand.Execute(null);
-        }
+        }else return;
 
-        //TODO save to database
+        SaveRoomReservation();
+    }
+
+    private void SaveRoomReservation()
+    {
+        var container = (Application.Current as App)!.Container;
+        var viewModel = (FacilitiesSelectionViewModel) DataContext;
+        var unitOfWork = container.Resolve<UnitOfWork>();
+        //Create guest
+        var guest = new Guest {Name = TxtName.Text, Surname = TxtSurname.Text, PhoneNumber = TxtTelephone.Text, CreditCardNumber = TxtCreditCardNumber.Text};
+        unitOfWork.Repository<Guest>().Add(guest);
+
+        //Get room
+        var roomName = viewModel.RoomStore.CurrentRoom.RoomName;
+        var room = unitOfWork.Repository<Room>().GetQueryable().FirstOrDefault(x => x.Name == roomName);
+        
+        //Get From and To date
+        var fromDate = viewModel.ReservationStore.CurrentReservationDates.FromDate;
+        var toDate = viewModel.ReservationStore.CurrentReservationDates.ToDate;
+        var days = (toDate - fromDate).Days;
+
+        //Get selected facilities from db
+        Facilities facilities = viewModel.Facilities;
+        var dbFacilities = facilities.GetDbFacilities(unitOfWork.Repository<Facility>()).Where(x => x is not null).ToList();
+        
+        //Calculate total price
+        var price = room.PricePerNight;
+        dbFacilities.ForEach(x => price += x.Price);
+
+
+        //Create order
+        var order = new Order {Room = room, Guest = guest, FromDate = fromDate, ToDate = toDate,  Days = days, TotalPrice = price};
+        unitOfWork.Repository<Order>().Add(order);
+
+        var facilityOrdersRepo = unitOfWork.Repository<FacilityOrder>();
+        foreach (var dbFacility in dbFacilities)
+        {
+            facilityOrdersRepo.Add(new FacilityOrder{Order = order, Facility = dbFacility});
+        }
+        
+        unitOfWork.Complete();
     }
 
     string SplitNumbers(string[] numbers)

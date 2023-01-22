@@ -166,9 +166,9 @@ public partial class ReservationDateSelect : UserControl
             viewModel.SaveDatesCommand.CanExecute(null))
         {
             //TODO uncomment at end
-            // viewModel.FromDate = FromDate.Text;
-            // viewModel.ToDate = ToDate.Text;
-            // viewModel.SaveDatesCommand.Execute(null);
+            viewModel.FromDate = FromDate.Text;
+            viewModel.ToDate = ToDate.Text;
+            viewModel.SaveDatesCommand.Execute(null);
             viewModel.NavigateFacilitiesSelectionCommand.Execute(null);
         }
     }
