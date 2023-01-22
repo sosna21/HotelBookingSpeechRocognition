@@ -28,15 +28,15 @@ namespace SWPSD_PROJEKT.UI
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var container = (Application.Current as App)!.Container;
-            var test = container.Resolve<Test>();
-            test.AddRoom().ConfigureAwait(false).GetAwaiter().GetResult();
-
             // var container = (Application.Current as App)!.Container;
-            // _dialogControl = container.Resolve<DialogControl>();
-            // _sre = container.Resolve<SpeechRecognition>();
-            // _tts = container.Resolve<SpeechSynthesis>();
-            // _sre.AddAudioStateChangeEvent(SRE_AudioStateChanged);
+            // var test = container.Resolve<Test>();
+            // test.AddRoom().ConfigureAwait(false).GetAwaiter().GetResult();
+
+            var container = (Application.Current as App)!.Container;
+            _dialogControl = container.Resolve<DialogControl>();
+            _sre = container.Resolve<SpeechRecognition>();
+            _tts = container.Resolve<SpeechSynthesis>();
+            _sre.AddAudioStateChangeEvent(SRE_AudioStateChanged);
         }
         
         private void SRE_AudioStateChanged(AudioState audioState)

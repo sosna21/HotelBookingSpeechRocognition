@@ -7,5 +7,14 @@ public enum GrammarName
     CalendarGrammar2,
     NumberGrammar,
     RoomSelectGrammar,
-    RoomDescriptionGrammar
+    RoomDescriptionGrammar,
+    NameSelectGrammar,
+    SurnameSelectGrammar,
+    TelephoneGrammar,
+    UserDataGrammar,
+    FacilityGrammar,
+    CreditCardGrammar
+
 }
+
+

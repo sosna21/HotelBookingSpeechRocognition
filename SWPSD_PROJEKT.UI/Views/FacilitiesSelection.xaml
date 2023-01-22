@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900">
     <Grid>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -19,33 +19,63 @@
                   Fill="Black" Stretch="Fill" Height="15" Width="10" />
         </Button>
 
-        <!-- Img container -->
-        <Grid Grid.Row="1" Grid.Column="0" Margin="20">
+        <Grid Grid.Column="0" Margin="70 30 0 0 ">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Image x:Name="RoomImg" Source="{StaticResource ApartamentImg}" />
-            <Label Grid.Row="1" HorizontalAlignment="Center">Apartament Comfort</Label>
-            <TextBlock Grid.Row="2" TextWrapping="Wrap" Margin="80 0"
-                       Text="24 m2&#xa;Telewizor z płaskim ekranem&#xa;bezpłatne WiFi&#xa;sauna&#xa;">
-            </TextBlock>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.ColumnSpan="2" FontSize="24" Padding="10">Wprowadź swoje dane osobowe:</TextBlock>
+            <Label Grid.Row="1">Imię: </Label>
+            <Label Grid.Row="2">Nazwisko: </Label>
+            <Label Grid.Row="3">Telefon: </Label>
+            <!-- <Label Grid.Row="4">Adres e-mail: </Label> -->
+            <Label Grid.Row="5">Numer karty płatniczej: </Label>
+            <Button Grid.ColumnSpan="2" Grid.Row="6" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Click="ButtonBase_OnClick" Style="{StaticResource ResetButton}">
+                Wyczyść dane
+            </Button>
+            <TextBlock Grid.ColumnSpan="2" Grid.Row="7" FontSize="20" Padding="10">Data pobytu w hotelu:</TextBlock>
+            <Label Grid.Row="8">Data zameldowania</Label>
+            <Label Grid.Row="9">Data wymeldowania</Label>
+            <TextBlock Grid.Row="10" Grid.ColumnSpan="2" Text="Do zapłaty : 500" FontSize="20"></TextBlock>
+
+            <TextBox Grid.Row="1" Grid.Column="1" Name="TxtName" />
+            <TextBox Grid.Row="2" Grid.Column="1" Name="TxtSurname" />
+            <TextBox Grid.Row="3" Grid.Column="1" Name="TxtTelephone" />
+            <!-- <TextBox Grid.Row="4" Grid.Column="1" /> -->
+            <TextBox Grid.Row="5" Grid.Column="1" Name="TxtCreditCardNumber" />
+            <TextBlock Grid.Row="7" Grid.Column="1" />
+            <TextBlock Grid.Row="8" Grid.Column="1" />
+
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="1" Margin="20 0 70 0">
+        <Grid Grid.Column="1" Margin="20 0 70 0">
             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                 <!-- Wybor łóźko -->
                 <StackPanel>
-                    <Label Content="Wybierz łóźko:" Target="{Binding ElementName=txtUdogodnienia}" />
+                    <Label Content="Wybierz łóźko:" Target="{Binding ElementName=txtUdogodnienia}" HorizontalAlignment="Center" />
                     <RadioButton Name="RadioBtn" Content="Pojedyńcze" IsChecked="{Binding Facilities.SingleBed}" HorizontalAlignment="Right" Margin="0 10" />
                     <RadioButton Content="Podwójne +100zł" IsChecked="{Binding Facilities.DoubleBed}" HorizontalAlignment="Right" Margin="0 10" />
                 </StackPanel>
 
                 <!-- Wybor udogodnien -->
                 <StackPanel>
-                    <Label Content="Wybierz udogodnienia:" Target="{Binding ElementName=txtUdogodnienia}" />
+                    <Label Content="Wybierz udogodnienia:" Target="{Binding ElementName=txtUdogodnienia}" HorizontalAlignment="Center" />
                     <CheckBox Content="Śniadanie +50 zł" IsChecked="{Binding Facilities.Breakfast}" HorizontalAlignment="Right" Margin="0 15" />
                     <CheckBox Content="Zwierzęta +100 zł" IsChecked="{Binding Facilities.Pets}" HorizontalAlignment="Right" Margin="0 10" />
                     <CheckBox Content="Barek z alkoholem +100 zł" IsChecked="{Binding Facilities.AlcoholBar}" HorizontalAlignment="Right" Margin="0 10" />
