@@ -12,7 +12,6 @@ public class Order
     
     public DateTime FromDate { get; set; }
     public DateTime ToDate { get; set; }
-    public int NumberOfPeople { get; set; }
     public int Days { get; set; }
     public decimal TotalPrice { get; set; }
 }

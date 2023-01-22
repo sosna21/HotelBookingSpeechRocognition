@@ -21,6 +21,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
         
@@ -32,20 +33,22 @@
         
         <!-- Data zameldowania -->
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Content="Data zameldowania:" Target="{Binding ElementName=txtName}" />
+            <Label Content="Data zameldowania:" Target="{Binding ElementName=DateFrom}" />
             <!-- <TextBox Name="FromDate" Text="{Binding FromDate}"/> -->
             <!-- <DatePicker Name="FromDate" SelectedDate="{Binding FromDate}" Style="{StaticResource FieldStyle}" /> -->
             <DatePicker Name="FromDate" Style="{StaticResource FieldStyle}" />
         </StackPanel>
         <!-- Data wymeldowania -->
         <StackPanel Grid.Row="2" Grid.Column="1">
-            <Label Content="Data wymeldowania:" Target="{Binding ElementName=txtSurname}" />
+            <Label Content="Data wymeldowania:" Target="{Binding ElementName=DateTo}" />
             <!-- <TextBox Name="ToDate" Text="{Binding ToDate}"/> -->
             <!-- <DatePicker Name="ToDate" SelectedDate="{Binding ToDate}" Style="{StaticResource FieldStyle}" /> -->
             <DatePicker Name="ToDate" Style="{StaticResource FieldStyle}" />
         </StackPanel>
         <!-- TODO one style for all continue buttons -->
-        <Button Name="BtnContinue" Background="RoyalBlue" Foreground="White" FontWeight="Medium" Grid.Row="4"
+        <!-- Error message -->
+        <TextBlock Grid.Row="4" Grid.Column="1" Margin="20" Foreground="Red" FontSize="16" FontWeight="Bold" Name="txtError" Style="{DynamicResource ErrorMsg}" /> 
+        <Button Name="BtnContinue" Background="RoyalBlue" Foreground="White" FontWeight="Medium" Grid.Row="5"
                 Grid.Column="1" Width="120" HorizontalAlignment="Right" Content="Kontynuuj" Click="BtnContinue_OnClick"/>
     </Grid>
 </UserControl>

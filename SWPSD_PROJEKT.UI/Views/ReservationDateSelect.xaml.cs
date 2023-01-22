@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using Autofac;
@@ -63,16 +64,14 @@ public partial class ReservationDateSelect : UserControl
                         _sre.LoadHomePageSystemGrammar();
                         break;
                     case "Kontynuuj":
-                        var error = ValidateForm();
-                        if (string.IsNullOrEmpty(error))
+                        if (ValidateForm())
                             BtnContinue_OnClick(null, null);
                         else
-                            _tts.SpeakAsync(error);
-                        //TODO add error msg control and add error text to it
+                            _tts.SpeakAsync(txtError.Text);
                         break;
-                    case "Reset":
+                    case "Wyczyść":
                         Reset();
-                        _tts.SpeakAsync("Nastąpiło zresetowanie formularza");
+                        _tts.SpeakAsync("Nastąpiło wyczyszczenie formularza");
                         break;
                     case "Wstecz":
                         var viewModel = (ReservationDateSelectViewModel) DataContext;
@@ -113,17 +112,55 @@ public partial class ReservationDateSelect : UserControl
         }
     }
 
-    private string ValidateForm()
+    // private string ValidateForm()
+    // {
+    //     if (string.IsNullOrWhiteSpace(ToDate.Text) || string.IsNullOrWhiteSpace(FromDate.Text))
+    //         return "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
+    //     return null;
+    // }
+    private bool ValidateForm()
     {
-        if (string.IsNullOrWhiteSpace(ToDate.Text) || string.IsNullOrWhiteSpace(FromDate.Text))
-            return "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
-        return null;
-        //TODO check if date2 > date1 and if they can be parsed to DateTime before continue
+        bool isValid = true;
+        txtError.Text = string.Empty;
+        if (EmptyFields()) isValid = false;
+        if (string.IsNullOrWhiteSpace(FromDate.Text) || string.IsNullOrWhiteSpace(ToDate.Text))
+        {
+            txtError.Text += "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.\n";
+            isValid = false;
+        }
+
+        try
+        {
+            if (DateTime.Compare(DateTime.Parse(FromDate.Text), DateTime.Parse(ToDate.Text)) > 0)
+            {
+                txtError.Text += "Data zameldowania nie może być póniejsza niż data wymeldowania\n";
+                isValid = false;
+            }
+        }
+        catch (Exception e)
+        {
+            txtError.Text += "Data jest w niepoprawnym formacie\n";
+            isValid = false;
+        }
+        return isValid;
+        
+        bool EmptyFields()
+        {
+            txtError.Text = string.Empty;
+            txtError.Text += FromDate.Text == string.Empty ? "Pole data zameldowania jest wymagane\n" : string.Empty;
+            txtError.Text += ToDate.Text == string.Empty ? "Pole data wymeldowania jest wymagane\n" : string.Empty;
+            return !string.IsNullOrEmpty(txtError.Text);
+        }
     }
 
     private void BtnContinue_OnClick(object sender, RoutedEventArgs e)
     {
+        
+        //if (!ValidateForm1()) return;
         //TODO add validation
+        //if (string.IsNullOrWhiteSpace(ToDate.Text) || string.IsNullOrWhiteSpace(FromDate.Text))
+            // "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
+
         var viewModel = (ReservationDateSelectViewModel) DataContext;
         if (viewModel.NavigateFacilitiesSelectionCommand.CanExecute(null) &&
             viewModel.SaveDatesCommand.CanExecute(null))

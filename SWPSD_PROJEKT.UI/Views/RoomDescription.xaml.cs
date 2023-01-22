@@ -40,8 +40,7 @@ public partial class RoomDescription : UserControl
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
         _tts.SpeakAsync(RoomName.Text);
         //TODO load description from DB
-        // RoomDesc.Text =
-        //     "W pokoju znajduje się biurko, telewizor z płaskim ekranem oraz prywatna łazienka.\nPościel i ręczniki są zapewnione. Pokój wyposażony jest w szafę i bardzo wygodne łóżka.\n\n• 24 m2\n • łazienka z wanną\n• widok na miasto";
+        
     }
 
     private void SpeechRecognized(RecognitionResult result)
