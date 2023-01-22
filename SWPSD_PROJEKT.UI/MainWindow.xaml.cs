@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Autofac;
@@ -20,7 +19,6 @@ namespace SWPSD_PROJEKT.UI
     {
         private SpeechRecognition _sre;
         private SpeechSynthesis _tts;
-        private DialogControl _dialogControl;
 
         public MainWindow()
         {
@@ -30,23 +28,13 @@ namespace SWPSD_PROJEKT.UI
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // var container = (Application.Current as App)!.Container;
-            // var test = container.Resolve<Test>();
-            // test.AddRoom().ConfigureAwait(false).GetAwaiter().GetResult();
             var container = (Application.Current as App)!.Container;
-            container.Resolve<UnitOfWork>().Repository<Room>().CountAsync(x => true);
-            _dialogControl = container.Resolve<DialogControl>();
+            var count =  container.Resolve<UnitOfWork>().Repository<Room>().Count(x => true);
+            if (count <= 0) container.Resolve<SeedData>().AddInitialData();
+            container.Resolve<DialogControl>();
             _sre = container.Resolve<SpeechRecognition>();
             _tts = container.Resolve<SpeechSynthesis>();
             _sre.AddAudioStateChangeEvent(SRE_AudioStateChanged);
-            InitializeDb();
-        }
-
-        private async Task InitializeDb()
-        {
-            var container = (Application.Current as App)!.Container;
-            var test = container.Resolve<Test>();
-            await test.AddRoom();
         }
         
         private void SRE_AudioStateChanged(AudioState audioState)

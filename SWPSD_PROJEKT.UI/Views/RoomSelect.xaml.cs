@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Autofac;
 using Microsoft.Speech.Recognition;
 using SWPSD_PROJEKT.ASR;

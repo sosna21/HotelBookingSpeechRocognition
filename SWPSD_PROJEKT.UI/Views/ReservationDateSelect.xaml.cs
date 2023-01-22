@@ -1,6 +1,6 @@
-﻿
-using System;
 using System.Windows;
+
+using System;
 using System.Windows.Controls;
 using Autofac;
 using Microsoft.Speech.Recognition;

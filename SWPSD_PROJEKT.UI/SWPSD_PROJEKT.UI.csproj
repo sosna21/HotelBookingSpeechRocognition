@@ -130,7 +130,7 @@
         <Compile Include="Stores\NavigationStore.cs" />
         <Compile Include="Stores\ReservationDateStore.cs" />
         <Compile Include="Stores\RoomStore.cs" />
-        <Compile Include="Test.cs" />
+        <Compile Include="SeedData.cs" />
         <Compile Include="ViewModels\FacilitiesSelectionViewModel.cs" />
         <Compile Include="ViewModels\ReservationDateSelectViewModel.cs" />
         <Compile Include="ViewModels\MainViewModel.cs" />

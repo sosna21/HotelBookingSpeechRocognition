@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SWPSD_PROJEKT.DialogDriver
 {
@@ -31,8 +29,8 @@ namespace SWPSD_PROJEKT.DialogDriver
             return (IRepository<TEntity>)_repositories[type]!;
         }
 
-        public Task<int> Complete( CancellationToken cancellationToken = default ) {
-            return _context.SaveChangesAsync(cancellationToken);
+        public int Complete() {
+            return _context.SaveChanges();
         }
 
         public void Dispose()

@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using Autofac;
@@ -266,7 +264,7 @@ public partial class FacilitiesSelection : UserControl
         //Create guest
         var guest = new Guest {Name = TxtName.Text, Surname = TxtSurname.Text, PhoneNumber = TxtTelephone.Text, CreditCardNumber = TxtCreditCardNumber.Text};
         unitOfWork.Repository<Guest>().Add(guest);
-
+        
         //Get room
         var roomName = viewModel.RoomStore.CurrentRoom.RoomName;
         var room = unitOfWork.Repository<Room>().GetQueryable().FirstOrDefault(x => x.Name == roomName);
@@ -275,16 +273,15 @@ public partial class FacilitiesSelection : UserControl
         var fromDate = viewModel.ReservationStore.CurrentReservationDates.FromDate;
         var toDate = viewModel.ReservationStore.CurrentReservationDates.ToDate;
         var days = (toDate - fromDate).Days;
-
+        
         //Get selected facilities from db
         Facilities facilities = viewModel.Facilities;
         var dbFacilities = facilities.GetDbFacilities(unitOfWork.Repository<Facility>()).Where(x => x is not null).ToList();
         
         //Calculate total price
-        var price = room.PricePerNight;
+        var price = room.PricePerNight * days;
         dbFacilities.ForEach(x => price += x.Price);
-
-
+        
         //Create order
         var order = new Order {Room = room, Guest = guest, FromDate = fromDate, ToDate = toDate,  Days = days, TotalPrice = price};
         unitOfWork.Repository<Order>().Add(order);
