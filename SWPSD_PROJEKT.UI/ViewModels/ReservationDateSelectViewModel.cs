@@ -19,8 +19,8 @@ public class ReservationDateSelectViewModel : ViewModelBase
         NavigateRoomDescriptionCommand = new NavigateCommand<RoomDescriptionViewModel>(navigatorStore, () => new RoomDescriptionViewModel(navigatorStore, roomStore, reservationStore));
         SaveDatesCommand = new SaveDatesCommand(reservationStore, this);
 
-        FromDate = reservationStore.CurrentReservationDates?.FromDate.ToShortDateString();
-        ToDate = reservationStore.CurrentReservationDates?.ToDate.ToShortDateString();
+        FromDate = reservationStore.CurrentReservationDates?.FromDate.ToString("MM/dd/yyyy");
+        ToDate = reservationStore.CurrentReservationDates?.ToDate.ToString("MM/dd/yyyy");
         RoomName = roomStore.CurrentRoom?.RoomName;
     }
 }

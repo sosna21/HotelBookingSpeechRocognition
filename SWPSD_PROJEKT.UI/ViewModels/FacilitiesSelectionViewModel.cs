@@ -8,6 +8,9 @@ namespace SWPSD_PROJEKT.UI.ViewModels;
 public class FacilitiesSelectionViewModel : ViewModelBase
 {
     public ReservationDateStore ReservationStore { get; set; }
+
+    public string FromDate => ReservationStore.CurrentReservationDates.FromDate.ToLongDateString();
+    public string ToDate => ReservationStore.CurrentReservationDates.ToDate.ToLongDateString();
     public RoomStore RoomStore { get; }
     public Facilities Facilities { get;} = new();
     public ICommand NavigateReservationDateSelectCommand { get; }
