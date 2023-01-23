@@ -56,7 +56,8 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label>Data zameldowania:</Label>
-                <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding ReservationStore.CurrentReservationDates.FromDate}"/>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           Text="{Binding ReservationStore.CurrentReservationDates.FromDate}" />
             </Grid>
             <Grid Grid.Row="9" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
@@ -64,14 +65,19 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label>Data wymeldowania:</Label>
-                <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding ReservationStore.CurrentReservationDates.ToDate}"/>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           Text="{Binding ReservationStore.CurrentReservationDates.ToDate}" />
             </Grid>
             <TextBlock Grid.Row="10" Grid.ColumnSpan="2" Text="Do zapłaty : 500" FontSize="20"></TextBlock>
 
-            <TextBox Grid.Row="1" Grid.Column="1" Name="TxtName" />
-            <TextBox Grid.Row="2" Grid.Column="1" Name="TxtSurname" />
-            <TextBox Grid.Row="3" Grid.Column="1" Name="TxtTelephone" />
-            <TextBox Grid.Row="5" Grid.Column="1" Name="TxtCreditCardNumber" />
+            <TextBox Grid.Row="1" Grid.Column="1" GotFocus="TxtName_OnGotFocus" LostFocus="TxtName_OnLostFocus"
+                     Name="TxtName" />
+            <TextBox Grid.Row="2" Grid.Column="1" GotFocus="TxtSurname_OnGotFocus" LostFocus="TxtSurname_OnLostFocus"
+                     Name="TxtSurname" />
+            <TextBox Grid.Row="3" Grid.Column="1" GotFocus="TxtTelephone_OnGotFocus"
+                     LostFocus="TxtTelephone_OnLostFocus" Name="TxtTelephone" />
+            <TextBox Grid.Row="5" Grid.Column="1" GotFocus="TxtCreditCardNumber_OnGotFocus"
+                     LostFocus="TxtCreditCardNumber_OnLostFocus" Name="TxtCreditCardNumber" />
             <TextBlock Grid.Row="7" Grid.Column="1" />
             <TextBlock Grid.Row="8" Grid.Column="1" />
 
@@ -81,20 +87,32 @@
             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                 <!-- Wybor łóźko -->
                 <StackPanel>
-                    <Label Content="Wybierz łóżko:" Target="{Binding ElementName=txtUdogodnienia}" HorizontalAlignment="Center" />
-                    <RadioButton Name="RadioBtn" Content="Pojedyńcze" IsChecked="{Binding Facilities.SingleBed}" HorizontalAlignment="Right" Margin="0 10" />
-                    <RadioButton Name="DoubleBedCh" Content="Podwójne +100zł" IsChecked="{Binding Facilities.DoubleBed}" HorizontalAlignment="Right" Margin="0 10" />
+                    <Label Content="Wybierz łóżko:" Target="{Binding ElementName=txtUdogodnienia}"
+                           HorizontalAlignment="Center" />
+                    <RadioButton Name="RadioBtn" Content="Pojedyńcze" IsChecked="{Binding Facilities.SingleBed}"
+                                 GotFocus="RadioBtn_OnGotFocus" LostFocus="RadioBtn_OnLostFocus"
+                                 HorizontalAlignment="Right" Margin="0 10" />
+                    <RadioButton Name="DoubleBedCh" Content="Podwójne +100zł"
+                                 IsChecked="{Binding Facilities.DoubleBed}" GotFocus="RadioBtn_OnGotFocus"
+                                 LostFocus="RadioBtn_OnLostFocus" HorizontalAlignment="Right" Margin="0 10" />
                 </StackPanel>
 
                 <!-- Wybor udogodnien -->
                 <StackPanel>
-                    <Label Content="Wybierz udogodnienia:" Target="{Binding ElementName=txtUdogodnienia}" HorizontalAlignment="Center" />
-                    <CheckBox Content="Śniadanie +50 zł" Name="BreakfastCh" IsChecked="{Binding Facilities.Breakfast}" HorizontalAlignment="Right" Margin="0 15" />
-                    <CheckBox Content="Zwierzęta +100 zł" Name="AnimalsCh" IsChecked="{Binding Facilities.Pets}" HorizontalAlignment="Right" Margin="0 10" />
-                    <CheckBox Content="Barek z alkoholem +100 zł" Name="AlcoholCh" IsChecked="{Binding Facilities.AlcoholBar}" HorizontalAlignment="Right" Margin="0 10" />
-                    <CheckBox Content="Dostawka dla dziecka +100 zł" Name="ChildAddCh" IsChecked="{Binding Facilities.ExtraBedForChild}" HorizontalAlignment="Right" Margin="0 10" />
+                    <Label Content="Wybierz udogodnienia:" Target="{Binding ElementName=txtUdogodnienia}"
+                           HorizontalAlignment="Center" />
+                    <CheckBox Content="Śniadanie +50 zł" Name="BreakfastCh" IsChecked="{Binding Facilities.Breakfast}"
+                              GotFocus="Checkbox_OnGotFocus" LostFocus="Checkbox_OnLostFocus" HorizontalAlignment="Right" Margin="0 15" />
+                    <CheckBox Content="Zwierzęta +100 zł" Name="AnimalsCh" IsChecked="{Binding Facilities.Pets}"
+                              GotFocus="Checkbox_OnGotFocus" LostFocus="Checkbox_OnLostFocus" HorizontalAlignment="Right" Margin="0 10" />
+                    <CheckBox Content="Barek z alkoholem +100 zł" Name="AlcoholCh"
+                              GotFocus="Checkbox_OnGotFocus" LostFocus="Checkbox_OnLostFocus" IsChecked="{Binding Facilities.AlcoholBar}" HorizontalAlignment="Right" Margin="0 10" />
+                    <CheckBox Content="Dostawka dla dziecka +100 zł" Name="ChildAddCh"
+                              GotFocus="Checkbox_OnGotFocus" LostFocus="Checkbox_OnLostFocus" IsChecked="{Binding Facilities.ExtraBedForChild}" HorizontalAlignment="Right"
+                              Margin="0 10" />
                 </StackPanel>
-                <Button Name="ContinueBtn" Click="ContinueBtn_OnClick" Content="Dalej" Width="150" HorizontalAlignment="Right" Background="RoyalBlue"
+                <Button Name="ContinueBtn" Click="ContinueBtn_OnClick" Content="Dalej" Width="150"
+                        HorizontalAlignment="Right" Background="RoyalBlue"
                         Margin="0 20 0 0" Command="{Binding NavigateSummaryOrderCommand}" Foreground="White">
                 </Button>
             </StackPanel>

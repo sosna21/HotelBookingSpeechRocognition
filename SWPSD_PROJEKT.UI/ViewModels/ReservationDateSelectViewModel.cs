@@ -20,7 +20,7 @@ public class ReservationDateSelectViewModel : ViewModelBase
         SaveDatesCommand = new SaveDatesCommand(reservationStore, this);
 
         FromDate = reservationStore.CurrentReservationDates?.FromDate.ToShortDateString();
-        ToDate = reservationStore.CurrentReservationDates?.FromDate.ToShortDateString();
+        ToDate = reservationStore.CurrentReservationDates?.ToDate.ToShortDateString();
         RoomName = roomStore.CurrentRoom?.RoomName;
     }
 }
