@@ -55,8 +55,8 @@ public class SpeechRecognition
         var facilityGrammar = CreateFacilitiesGrammar();
         var bedSelectGrammar = CreateBedSelectGrammar();
         var creditCardGrammar = CreateCreditCardGrammar();
-        
-        
+        var summaryOrderGrammar = CreateSummaryOrderGrammar();
+
         _grammarsDict.Add(GrammarName.HomePageSystemGrammar, homePageSystemGrammar);
         _grammarsDict.Add(GrammarName.CalendarGrammar1, calendarGrammar1);
         _grammarsDict.Add(GrammarName.CalendarGrammar2, calendarGrammar2);
@@ -69,6 +69,7 @@ public class SpeechRecognition
         _grammarsDict.Add(GrammarName.FacilityGrammar, facilityGrammar);
         _grammarsDict.Add(GrammarName.BedSelectGrammar, bedSelectGrammar);
         _grammarsDict.Add(GrammarName.CreditCardGrammar, creditCardGrammar);
+        _grammarsDict.Add(GrammarName.SummaryOrderGrammar, summaryOrderGrammar);
     }
 
     private Grammar CreateCreditCardGrammar()
@@ -457,6 +458,31 @@ public class SpeechRecognition
         Grammar gramatyka = new Grammar(systemGrammar, "homePageSystemGrammar");
         return gramatyka;
     }
+    private Grammar CreateSummaryOrderGrammar()
+    {
+        SrgsRule option = new SrgsRule("Opcja");
+
+        SrgsOneOf options = new SrgsOneOf(new SrgsItem[]
+        {
+            new("Powrót do głównej"),
+            new("Pomoc"),
+        });
+        option.Add(options);
+
+        SrgsRule rootSummaryOrder = new SrgsRule("rootSummaryOrder");
+        rootSummaryOrder.Scope = SrgsRuleScope.Public;
+        rootSummaryOrder.Add(new SrgsRuleRef(option, "Opcja"));
+
+        SrgsDocument docWeight = new SrgsDocument();
+        docWeight.Root = rootSummaryOrder;
+        docWeight.Culture = new CultureInfo("pl-PL");
+        docWeight.Rules.Add(new SrgsRule[]
+            { rootSummaryOrder, option }
+        );
+
+        Grammar gramatyka = new Grammar(docWeight, "rootSummaryOrder");
+        return gramatyka;
+    }
 
     //TODO secure grammars on loading and deleting
 
@@ -547,6 +573,16 @@ public class SpeechRecognition
     public void UnloadBedSelectGrammar()
     {
         _sre.UnloadGrammar(_grammarsDict[GrammarName.BedSelectGrammar]);
+    }
+    
+    public void LoadSummaryOrderGrammar()
+    {
+        _sre.LoadGrammarAsync(_grammarsDict[GrammarName.SummaryOrderGrammar]);
+    }
+
+    public void UnloadSummaryOrderGrammar()
+    {
+        _sre.UnloadGrammar(_grammarsDict[GrammarName.SummaryOrderGrammar]);
     }
     
     public void UnloadAllGrammar()

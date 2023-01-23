@@ -13,8 +13,8 @@ public enum GrammarName
     UserDataGrammar,
     FacilityGrammar,
     BedSelectGrammar,
-    CreditCardGrammar
-
+    CreditCardGrammar,
+    SummaryOrderGrammar
 }
 
 
