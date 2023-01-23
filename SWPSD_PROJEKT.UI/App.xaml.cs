@@ -29,8 +29,8 @@ namespace SWPSD_PROJEKT.UI
             //multi view config
             NavigationStore navigationStore = new NavigationStore();
             RoomStore roomStore = new RoomStore();
-            ReservationDateStore reservationDateStore = new ReservationDateStore();
-            navigationStore.CurrentViewModel = new RoomSelectViewModel(navigationStore, roomStore, reservationDateStore);
+            ReservationDataStore reservationDataStore = new ReservationDataStore();
+            navigationStore.CurrentViewModel = new RoomSelectViewModel(navigationStore, roomStore, reservationDataStore);
             MainWindow = new MainWindow()
             {
                 DataContext = new MainViewModel(navigationStore)

@@ -12,7 +12,7 @@ public class RoomSelectViewModel : ViewModelBase
     public ICommand NavigateRoomDescriptionCommand { get; }
     public ICommand SelectRoomCommand { get; }
 
-    public RoomSelectViewModel(NavigationStore navigatorStore, RoomStore roomStore, ReservationDateStore reservationStore)
+    public RoomSelectViewModel(NavigationStore navigatorStore, RoomStore roomStore, ReservationDataStore reservationStore)
     {
         NavigateRoomDescriptionCommand=
             new NavigateCommand<RoomDescriptionViewModel>(navigatorStore, () => new RoomDescriptionViewModel(navigatorStore, roomStore, reservationStore));

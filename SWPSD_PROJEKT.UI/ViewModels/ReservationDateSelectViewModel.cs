@@ -13,7 +13,7 @@ public class ReservationDateSelectViewModel : ViewModelBase
     public ICommand NavigateRoomDescriptionCommand { get; }
     public ICommand SaveDatesCommand { get; }
 
-    public ReservationDateSelectViewModel(NavigationStore navigatorStore, RoomStore roomStore, ReservationDateStore reservationStore)
+    public ReservationDateSelectViewModel(NavigationStore navigatorStore, RoomStore roomStore, ReservationDataStore reservationStore)
     {
         NavigateFacilitiesSelectionCommand = new NavigateCommand<FacilitiesSelectionViewModel>(navigatorStore, () => new FacilitiesSelectionViewModel(navigatorStore, roomStore, reservationStore));
         NavigateRoomDescriptionCommand = new NavigateCommand<RoomDescriptionViewModel>(navigatorStore, () => new RoomDescriptionViewModel(navigatorStore, roomStore, reservationStore));

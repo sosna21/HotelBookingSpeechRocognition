@@ -7,10 +7,10 @@ namespace SWPSD_PROJEKT.UI.Commands;
 
 public class SaveDatesCommand : CommandBase
 {
-    private readonly ReservationDateStore _reservationStore;
+    private readonly ReservationDataStore _reservationStore;
     private readonly ReservationDateSelectViewModel _roomSelectViewModel;
 
-    public SaveDatesCommand(ReservationDateStore reservationStore, ReservationDateSelectViewModel roomSelectViewModel)
+    public SaveDatesCommand(ReservationDataStore reservationStore, ReservationDateSelectViewModel roomSelectViewModel)
     {
         _reservationStore = reservationStore;
         _roomSelectViewModel = roomSelectViewModel;

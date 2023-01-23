@@ -12,6 +12,6 @@ public class SummaryOrderViewModel : ViewModelBase
     {
 
         NavigateRoomSelectCommand=
-            new NavigateCommand<RoomSelectViewModel>(navigatorStore, () => new RoomSelectViewModel(navigatorStore, new RoomStore(), new ReservationDateStore()));
+            new NavigateCommand<RoomSelectViewModel>(navigatorStore, () => new RoomSelectViewModel(navigatorStore, new RoomStore(), new ReservationDataStore()));
     }
 }

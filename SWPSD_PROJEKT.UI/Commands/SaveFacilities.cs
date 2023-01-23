@@ -5,10 +5,10 @@ namespace SWPSD_PROJEKT.UI.Commands;
 
 public class SaveFacilities : CommandBase
 {
-    private readonly ReservationDateStore _reservationStore;
+    private readonly ReservationDataStore _reservationStore;
     private readonly FacilitiesSelectionViewModel _facilitiesSelectionViewModel;
 
-    public SaveFacilities(ReservationDateStore reservationStore, FacilitiesSelectionViewModel facilitiesSelectionViewModel)
+    public SaveFacilities(ReservationDataStore reservationStore, FacilitiesSelectionViewModel facilitiesSelectionViewModel)
     {
         _reservationStore = reservationStore;
         _facilitiesSelectionViewModel = facilitiesSelectionViewModel;
