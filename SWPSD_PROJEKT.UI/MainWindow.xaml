@@ -9,8 +9,8 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="MainWindow"
-        MinHeight="850" MinWidth="1280"
-        Height="850" Width="1280">
+        MinHeight="720" MinWidth="1280"
+        Height="720" Width="1280">
     <Grid Background="Beige">
 
         <Grid.RowDefinitions>
@@ -25,10 +25,6 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.ColumnSpan="2" Background="RoyalBlue" Height="70">
-            <!-- <Button Command="{Binding BackViewCommand}" Width="25" Height="25" HorizontalAlignment="Left" Margin="30 0 0 0"> -->
-            <!--     <Path Data="M 410.312 454.729 151.767 244.996 410.312 35.271 381.693 0 79.688 244.996 381.693 490 Z" -->
-            <!--           Fill="Black" Stretch="Fill" Height="15" Width="10" /> -->
-            <!-- </Button> -->
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Header1}">
                 Zarezerwuj pokój w hotelu Royal
             </TextBlock>

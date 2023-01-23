@@ -23,14 +23,7 @@ public partial class RoomDescription : UserControl
     {
         InitializeComponent();
         Loaded += OnLoaded;
-        // this.DataContext = this;
-        // Unloaded += OnUnloaded;
     }
-
-    // private void OnUnloaded(object sender, RoutedEventArgs e)
-    // {
-    //     //TODO reset subscriptions here (trudne)
-    // }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
@@ -42,8 +35,6 @@ public partial class RoomDescription : UserControl
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
         _tts.SpeakAsync(RoomName.Text);
         RoomDesc.Text = GetRoomDescription();
-        //TODO load description from DB
-        
     }
 
     private string GetRoomDescription()
@@ -67,7 +58,6 @@ public partial class RoomDescription : UserControl
         var txt = result.Text;
         if (confidence > 0.5)
         {
-            //TODO dodać pozostałe wybory pokoii !! (dodac czytanie)
             if (result.Grammar.RuleName == "rootRoomDescription")
             {
                 string opcja = result.Semantics["Opcja"].Value.ToString();
@@ -99,10 +89,5 @@ public partial class RoomDescription : UserControl
     private void ReadDescription()
     {
         _tts.SpeakAsync(RoomDesc.Text);
-    }
-
-    private void StopBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        _tts.TerminateSynthesis();
     }
 }

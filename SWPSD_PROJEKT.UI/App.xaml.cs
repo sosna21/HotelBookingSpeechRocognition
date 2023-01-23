@@ -22,9 +22,7 @@ namespace SWPSD_PROJEKT.UI
             builder.RegisterType<UnitOfWork>().SingleInstance();
             builder.RegisterType<SpeechRecognition>().SingleInstance();
             builder.RegisterType<SpeechSynthesis>().SingleInstance();
-            // builder.RegisterType<DialogControl>();
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>));
-            // builder.RegisterType<DialogControl>().As<IDialogControl>();
             builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
             Container = builder.Build();
             

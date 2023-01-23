@@ -1,10 +1,13 @@
 using System.Windows;
-
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using Autofac;
 using Microsoft.Speech.Recognition;
 using SWPSD_PROJEKT.ASR;
+using SWPSD_PROJEKT.DialogDriver;
+using SWPSD_PROJEKT.DialogDriver.Model;
 using SWPSD_PROJEKT.TTS;
 using SWPSD_PROJEKT.UI.ViewModels;
 
@@ -14,6 +17,7 @@ public partial class ReservationDateSelect : UserControl
 {
     private SpeechRecognition _sre;
     private SpeechSynthesis _tts;
+
     public ReservationDateSelect()
     {
         InitializeComponent();
@@ -28,18 +32,31 @@ public partial class ReservationDateSelect : UserControl
         _sre.UnloadAllGrammar();
         _sre.LoadHomePageSystemGrammar();
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
+        // var reservedDates = GetReservedDates();
     }
-
-    private void Reset()
+    
+    private List<Order> GetReservedDates()
     {
-        FromDate.Text = "";
-        ToDate.Text = "";
-        //TODO reset error msg here
+        var container = (Application.Current as App)!.Container;
+        var unitOfWork = container.Resolve<UnitOfWork>();
+        var viewModel = (ReservationDateSelectViewModel) DataContext;
+        
+        var roomName = viewModel.RoomName;
+        var room = unitOfWork.Repository<Room>().GetQueryable().FirstOrDefault(x => x.Name == roomName);
+        if (room is null) return null;
+        var ordersDates = unitOfWork.Repository<Order>().GetQueryable().Where(x => x.RoomId == room.RoomId).ToList();
+        
+        List<(DateTime FromDate, DateTime ToDate)> valueTuple = null;
+        ordersDates.ForEach(x =>
+        {
+            valueTuple.Add((x.FromDate, x.ToDate));
+        });
+        return ordersDates;
     }
 
     private void SpeechRecognized(RecognitionResult result)
     {
-        if (DataContext == null) return; 
+        if (DataContext == null) return;
         float confidence = result.Confidence;
         var txt = result.Text;
         if (confidence > 0.5)
@@ -67,7 +84,7 @@ public partial class ReservationDateSelect : UserControl
                         if (ValidateForm())
                             BtnContinue_OnClick(null, null);
                         else
-                            _tts.SpeakAsync(txtError.Text);
+                            _tts.SpeakAsync(TxtError.Text);
                         break;
                     case "Wyczyść":
                         Reset();
@@ -79,9 +96,10 @@ public partial class ReservationDateSelect : UserControl
                             viewModel.NavigateRoomDescriptionCommand.Execute(null);
                         break;
                     case "Pomoc":
-                        _tts.SpeakAsync("Powiedz datę zameldowania i wymeldowania aby przejść dalej. Powiedz wstecz aby wrócić do opisu pokoju. Powiedz wyczyść aby wyczyścić formularz.");
+                        _tts.SpeakAsync(
+                            "Powiedz datę zameldowania i wymeldowania aby przejść dalej. Powiedz wstecz aby wrócić do opisu pokoju. Powiedz wyczyść aby wyczyścić formularz.");
                         break;
-                    
+
                     default:
                         _tts.SpeakAsync("Nierozpoznana komenda");
                         break;
@@ -101,10 +119,6 @@ public partial class ReservationDateSelect : UserControl
                 var year = result.Semantics["Rok"].Value.ToString();
                 ToDate.Text = $"{day} {month} {year}";
             }
-            // else if (result.Grammar.RuleName == "rootNumer")
-            // {
-            //     var number = result.Semantics["Numer"].Value.ToString();
-            // }
         }
         else
         {
@@ -112,60 +126,49 @@ public partial class ReservationDateSelect : UserControl
         }
     }
 
-    // private string ValidateForm()
-    // {
-    //     if (string.IsNullOrWhiteSpace(ToDate.Text) || string.IsNullOrWhiteSpace(FromDate.Text))
-    //         return "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
-    //     return null;
-    // }
     private bool ValidateForm()
     {
-        bool isValid = true;
-        txtError.Text = string.Empty;
-        if (EmptyFields()) isValid = false;
-        if (string.IsNullOrWhiteSpace(FromDate.Text) || string.IsNullOrWhiteSpace(ToDate.Text))
-        {
-            txtError.Text += "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.\n";
-            isValid = false;
-        }
+        TxtError.Text = string.Empty;
+        if (EmptyFields()) return false;
 
         try
         {
-            if (DateTime.Compare(DateTime.Parse(FromDate.Text), DateTime.Parse(ToDate.Text)) > 0)
+            if (DateTime.Compare(DateTime.Parse(FromDate.Text), DateTime.Parse(ToDate.Text)) >= 0)
             {
-                txtError.Text += "Data zameldowania nie może być póniejsza niż data wymeldowania\n";
-                isValid = false;
+                TxtError.Text += "Data zameldowania nie może być późniejsza niż data wymeldowania";
+                return false;
             }
         }
         catch (Exception e)
         {
-            txtError.Text += "Data jest w niepoprawnym formacie\n";
-            isValid = false;
+            TxtError.Text += "Data jest w niepoprawnym formacie";
+            return false;
         }
-        return isValid;
-        
+
+        return true;
+
         bool EmptyFields()
         {
-            txtError.Text = string.Empty;
-            txtError.Text += FromDate.Text == string.Empty ? "Pole data zameldowania jest wymagane\n" : string.Empty;
-            txtError.Text += ToDate.Text == string.Empty ? "Pole data wymeldowania jest wymagane\n" : string.Empty;
-            return !string.IsNullOrEmpty(txtError.Text);
+            TxtError.Text = string.Empty;
+            TxtError.Text += FromDate.Text == string.Empty ? "Pole data zameldowania jest puste\n" : string.Empty;
+            TxtError.Text += ToDate.Text == string.Empty ? "Pole data wymeldowania jest puste" : string.Empty;
+            return !string.IsNullOrEmpty(TxtError.Text);
         }
     }
-
+    private void Reset()
+    {
+        FromDate.Text = "";
+        ToDate.Text = "";
+        TxtError.Text = "";
+    }
+    
     private void BtnContinue_OnClick(object sender, RoutedEventArgs e)
     {
-        
-        //if (!ValidateForm1()) return;
-        //TODO add validation
-        //if (string.IsNullOrWhiteSpace(ToDate.Text) || string.IsNullOrWhiteSpace(FromDate.Text))
-            // "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
-
+        if (!ValidateForm()) return;
         var viewModel = (ReservationDateSelectViewModel) DataContext;
         if (viewModel.NavigateFacilitiesSelectionCommand.CanExecute(null) &&
             viewModel.SaveDatesCommand.CanExecute(null))
         {
-            //TODO uncomment at end
             viewModel.FromDate = FromDate.Text;
             viewModel.ToDate = ToDate.Text;
             viewModel.SaveDatesCommand.Execute(null);

@@ -31,7 +31,6 @@ namespace SWPSD_PROJEKT.UI
             var container = (Application.Current as App)!.Container;
             var count =  container.Resolve<UnitOfWork>().Repository<Room>().Count(x => true);
             if (count <= 0) container.Resolve<SeedData>().AddInitialData();
-            container.Resolve<DialogControl>();
             _sre = container.Resolve<SpeechRecognition>();
             _tts = container.Resolve<SpeechSynthesis>();
             _sre.AddAudioStateChangeEvent(SRE_AudioStateChanged);

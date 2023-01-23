@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.Speech.Recognition;
 using Microsoft.Speech.Recognition.SrgsGrammar;
-using SWPSD_PROJEKT.DialogDriver;
 using SWPSD_PROJEKT.TTS;
 
 namespace SWPSD_PROJEKT.ASR;
@@ -14,17 +13,14 @@ public class SpeechRecognition
 {
     private readonly SpeechRecognitionEngine _sre;
     private Dictionary<GrammarName, Grammar> _grammarsDict;
-    private DialogControl _dialogControl;
     private readonly SpeechSynthesis _tts;
 
 
-    public SpeechRecognition(DialogControl dialogControl, SpeechSynthesis tts)
+    public SpeechRecognition(SpeechSynthesis tts)
     {
-        _dialogControl = dialogControl;
         _tts = tts;
         _sre = new SpeechRecognitionEngine(new CultureInfo("pl-PL"));
         _sre.SetInputToDefaultAudioDevice();
-        // _sre.SpeechRecognized += SRE_SpeechRecognized;
 
         InitializeGrammars();
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.HomePageSystemGrammar]);
@@ -44,20 +40,12 @@ public class SpeechRecognition
             speechRecognized(args.Result);
         };
     }
-    // TODO implement ResetSpeechRecognizedEventSubscriptions method (trudne)
-    //Wymyślić sposób usuwania subskrypcji przy zmianie widoku
-    // public void ResetSpeechRecognizedEventSubscriptions()
-    // {
-    //     
-    // }
-
     private void InitializeGrammars()
     {
         _grammarsDict = new Dictionary<GrammarName, Grammar>();
         var homePageSystemGrammar = CreateHomePageSystemGrammar();
         var calendarGrammar1 = CreateCalendarGrammar("rootData1");
         var calendarGrammar2 = CreateCalendarGrammar("rootData2");
-        var numberGrammar = CreateNumberGrammar();
         var roomSelectGrammar = CreateRoomSelectGrammar();
         var roomDescriptionGrammar = CreateRoomDescriptionGrammar();
         var nameSelectGrammar = CreateNameSelectGrammar();
@@ -72,7 +60,6 @@ public class SpeechRecognition
         _grammarsDict.Add(GrammarName.HomePageSystemGrammar, homePageSystemGrammar);
         _grammarsDict.Add(GrammarName.CalendarGrammar1, calendarGrammar1);
         _grammarsDict.Add(GrammarName.CalendarGrammar2, calendarGrammar2);
-        _grammarsDict.Add(GrammarName.NumberGrammar, numberGrammar);
         _grammarsDict.Add(GrammarName.RoomSelectGrammar, roomSelectGrammar);
         _grammarsDict.Add(GrammarName.RoomDescriptionGrammar, roomDescriptionGrammar);
         _grammarsDict.Add(GrammarName.NameSelectGrammar, nameSelectGrammar);
@@ -444,20 +431,6 @@ public class SpeechRecognition
         return gramatyka;
     }
 
-    /*private Grammar CreateHomePageSystemGrammar()
-    {
-        GrammarBuilder grammarBuilder = new GrammarBuilder();
-        Choices stopChoice = new Choices();
-        stopChoice.Add("Data zamelodowania");
-        stopChoice.Add("Data wymeldowania");
-        stopChoice.Add("Liczba osób");
-        stopChoice.Add("Kontyniuj");
-        stopChoice.Add("Pomoc");
-        grammarBuilder.Append(stopChoice);
-        Grammar homePageSystemGrammar = new Grammar(grammarBuilder);
-        return homePageSystemGrammar;
-    }*/
-
     //TODO secure grammars on loading and deleting
 
     public void LoadFacilitiesGrammar()
@@ -483,11 +456,6 @@ public class SpeechRecognition
     public void LoadTelephoneGrammar()
     {
         _sre.LoadGrammarAsync((_grammarsDict[GrammarName.TelephoneGrammar]));
-    }
-
-    public void LoadNumberGrammar()
-    {
-        _sre.LoadGrammarAsync(_grammarsDict[GrammarName.NumberGrammar]);
     }
 
     public void LoadHomePageSystemGrammar()
@@ -520,24 +488,11 @@ public class SpeechRecognition
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.CreditCardGrammar]);
     }
 
-    public void UnloadCalendarGrammar1()
-    {
-        _sre.UnloadGrammar(_grammarsDict[GrammarName.CalendarGrammar1]);
-    }
-
     public void UnloadAllGrammar()
     {
         _sre.UnloadAllGrammars();
     }
-
-    private void UnloadGrammar(Grammar grammar)
-    {
-        if (_sre.Grammars.Contains(grammar))
-        {
-            _sre.UnloadGrammar(grammar);
-        }
-    }
-
+    
     public AudioState GetAudioState()
     {
         return _sre.AudioState;
