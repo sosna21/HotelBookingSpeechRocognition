@@ -32,10 +32,21 @@ public partial class ReservationDateSelect : UserControl
         _sre.UnloadAllGrammar();
         _sre.LoadHomePageSystemGrammar();
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
-        // var reservedDates = GetReservedDates();
+        var reservedDates = GetReservedDates();
+        BlackoutDates(reservedDates);
+    }
+
+    private void BlackoutDates(List<(DateTime FromDate, DateTime ToDate)> dates)
+    {
+        dates.ForEach(x =>
+        {
+            var dateRange = new CalendarDateRange(x.FromDate, x.ToDate);
+            FromDate.BlackoutDates.Add(dateRange);
+            ToDate.BlackoutDates.Add(dateRange);
+        });
     }
     
-    private List<Order> GetReservedDates()
+    private List<(DateTime FromDate, DateTime ToDate)> GetReservedDates()
     {
         var container = (Application.Current as App)!.Container;
         var unitOfWork = container.Resolve<UnitOfWork>();
@@ -46,12 +57,13 @@ public partial class ReservationDateSelect : UserControl
         if (room is null) return null;
         var ordersDates = unitOfWork.Repository<Order>().GetQueryable().Where(x => x.RoomId == room.RoomId).ToList();
         
-        List<(DateTime FromDate, DateTime ToDate)> valueTuple = null;
+        List<(DateTime FromDate, DateTime ToDate)> valueTuple = new();
         ordersDates.ForEach(x =>
         {
             valueTuple.Add((x.FromDate, x.ToDate));
         });
-        return ordersDates;
+        
+        return valueTuple;
     }
 
     private void SpeechRecognized(RecognitionResult result)

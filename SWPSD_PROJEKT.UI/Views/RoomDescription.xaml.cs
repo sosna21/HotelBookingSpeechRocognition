@@ -16,8 +16,6 @@ public partial class RoomDescription : UserControl
     private SpeechRecognition _sre;
 
     private SpeechSynthesis _tts;
-    // public string roomDescription { get; set; } = "Opis pokoju taki że ojej";
-
 
     public RoomDescription()
     {
