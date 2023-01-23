@@ -32,10 +32,12 @@ public partial class RoomDescription : UserControl
         _sre.LoadRoomDescriptionGrammar();
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
         _tts.SpeakAsync(RoomName.Text);
-        RoomDesc.Text = GetRoomDescription();
+        var room = GetRoom();
+        RoomDesc.Text = room.Description;
+        SaveRoomData(room);
     }
 
-    private string GetRoomDescription()
+    private Room GetRoom()
     {
         var container = (Application.Current as App)!.Container;
         var unitOfWork = container.Resolve<UnitOfWork>();
@@ -43,10 +45,15 @@ public partial class RoomDescription : UserControl
         var room = unitOfWork.Repository<Room>().GetQueryable().FirstOrDefault(x => x.Name == roomName);
         if (room != null)
         {
-            var description = room.Description;
-            return description;
+            return room;
         }
-        return "Nie znaleziono";
+        return null;
+    }
+
+    private void SaveRoomData(Room room)
+    {
+        var viewModel = (RoomDescriptionViewModel) DataContext;
+        viewModel.ReservationStore.CurrentRoom = room;
     }
 
     private void SpeechRecognized(RecognitionResult result)

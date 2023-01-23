@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -38,8 +39,8 @@ public partial class FacilitiesSelection : UserControl
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
         _tts.SpeakAsync("Proszę uzupełnić swoje dane oraz wybrać ewentualne udogodnienia");
     }
-    
-        private void SpeechRecognized(RecognitionResult result)
+
+    private void SpeechRecognized(RecognitionResult result)
     {
         if (DataContext == null) return;
         float confidence = result.Confidence;
@@ -106,6 +107,7 @@ public partial class FacilitiesSelection : UserControl
                             TxtError.Visibility = Visibility.Visible;
                             _tts.SpeakAsync(error);
                         }
+
                         break;
 
                     default:
@@ -235,7 +237,7 @@ public partial class FacilitiesSelection : UserControl
     {
         return Regex.Match(number, @"^([0-9]{16})$").Success;
     }
-    
+
     private void SaveRoomReservation()
     {
         var container = (Application.Current as App)!.Container;
@@ -323,7 +325,7 @@ public partial class FacilitiesSelection : UserControl
 
         return txtBuilder.ToString();
     }
-    
+
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
         Reset();
@@ -338,7 +340,7 @@ public partial class FacilitiesSelection : UserControl
             TxtError.Visibility = Visibility.Visible;
             return;
         }
-        
+
         var viewModel = (FacilitiesSelectionViewModel) DataContext;
         if (viewModel.NavigateSummaryOrderCommand.CanExecute(null) &&
             viewModel.SaveFacilities.CanExecute(null))
@@ -350,7 +352,7 @@ public partial class FacilitiesSelection : UserControl
 
         SaveRoomReservation();
     }
-    
+
     private void TxtName_OnGotFocus(object sender, RoutedEventArgs e)
     {
         _sre.LoadNameSelectGrammar();
@@ -409,5 +411,47 @@ public partial class FacilitiesSelection : UserControl
     private void Checkbox_OnLostFocus(object sender, RoutedEventArgs e)
     {
         _sre.UnloadFacilitiesGrammar();
+    }
+
+    private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
+    {
+        var viewModel = (FacilitiesSelectionViewModel) DataContext;
+        var days = (viewModel.ReservationStore.CurrentReservationDates.ToDate -
+                    viewModel.ReservationStore.CurrentReservationDates.FromDate).Days;
+        var checkbox = sender as CheckBox;
+        var price = decimal.Parse(Regex.Match(checkbox!.Content.ToString(), @"\d+(\.\d+)?").Value);
+        TxtPrice.Text = (decimal.Parse(TxtPrice.Text.Replace('.', ',')) + price * days).ToString();
+    }
+
+    private void CheckBox_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+        if(DataContext is null) return;
+        var viewModel = (FacilitiesSelectionViewModel) DataContext;
+        var days = (viewModel.ReservationStore.CurrentReservationDates.ToDate -
+                    viewModel.ReservationStore.CurrentReservationDates.FromDate).Days;
+        var checkbox = sender as CheckBox;
+        var price = decimal.Parse(Regex.Match(checkbox!.Content.ToString(), @"\d+(\.\d+)?").Value);
+        TxtPrice.Text = (decimal.Parse(TxtPrice.Text.Replace('.', ',')) - price ).ToString();
+    }
+
+    private void DoubleBedCh_OnChecked(object sender, RoutedEventArgs e)
+    {
+        var viewModel = (FacilitiesSelectionViewModel) DataContext;
+        var days = (viewModel.ReservationStore.CurrentReservationDates.ToDate -
+                    viewModel.ReservationStore.CurrentReservationDates.FromDate).Days;
+        var checkbox = sender as RadioButton;
+        var price = decimal.Parse(Regex.Match(checkbox!.Content.ToString(), @"\d+(\.\d+)?").Value);
+        TxtPrice.Text = (decimal.Parse(TxtPrice.Text.Replace('.', ',')) + price * days).ToString();
+    }
+
+    private void DoubleBedCh_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+        if(DataContext is null) return;
+        var viewModel = (FacilitiesSelectionViewModel) DataContext;
+        var days = (viewModel.ReservationStore.CurrentReservationDates.ToDate -
+                    viewModel.ReservationStore.CurrentReservationDates.FromDate).Days;
+        var checkbox = sender as RadioButton;
+        var price = decimal.Parse(Regex.Match(checkbox!.Content.ToString(), @"\d+(\.\d+)?").Value);
+        TxtPrice.Text = (decimal.Parse(TxtPrice.Text.Replace('.', ',')) - price * days).ToString();
     }
 }

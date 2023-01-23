@@ -13,12 +13,15 @@ public class RoomDescriptionViewModel: ViewModelBase
     public string RoomName => _roomStore.CurrentRoom.RoomName;
     //Used by binding
     public Image RoomImage => _roomStore.CurrentRoom.RoomImg;
+
+    public ReservationDataStore ReservationStore { get; set; }
     public ICommand NavigateRoomSelectCommand { get; }
     public ICommand NavigateReservationDateSelectCommand { get; }
 
-    public RoomDescriptionViewModel(NavigationStore navigatorStore, RoomStore roomStore, ReservationDateStore reservationStore)
+    public RoomDescriptionViewModel(NavigationStore navigatorStore, RoomStore roomStore, ReservationDataStore reservationStore)
     {
         _roomStore = roomStore;
+        ReservationStore = reservationStore;
         NavigateRoomSelectCommand =
             new NavigateCommand<RoomSelectViewModel>(navigatorStore, () => new RoomSelectViewModel(navigatorStore, roomStore, reservationStore));
         NavigateReservationDateSelectCommand=

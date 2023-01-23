@@ -128,7 +128,7 @@
         <Compile Include="Models\ReservationDates.cs" />
         <Compile Include="Models\Room.cs" />
         <Compile Include="Stores\NavigationStore.cs" />
-        <Compile Include="Stores\ReservationDateStore.cs" />
+        <Compile Include="Stores\ReservationDataStore.cs" />
         <Compile Include="Stores\RoomStore.cs" />
         <Compile Include="SeedData.cs" />
         <Compile Include="ViewModels\FacilitiesSelectionViewModel.cs" />
