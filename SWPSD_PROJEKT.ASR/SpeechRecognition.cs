@@ -53,10 +53,10 @@ public class SpeechRecognition
         var telephoneGrammar = CreateTelGrammar();
         var userDataGrammar = CreateUserDataGrammar();
         var facilityGrammar = CreateFacilitiesGrammar();
+        var bedSelectGrammar = CreateBedSelectGrammar();
         var creditCardGrammar = CreateCreditCardGrammar();
         
-
-
+        
         _grammarsDict.Add(GrammarName.HomePageSystemGrammar, homePageSystemGrammar);
         _grammarsDict.Add(GrammarName.CalendarGrammar1, calendarGrammar1);
         _grammarsDict.Add(GrammarName.CalendarGrammar2, calendarGrammar2);
@@ -67,6 +67,7 @@ public class SpeechRecognition
         _grammarsDict.Add(GrammarName.TelephoneGrammar, telephoneGrammar);
         _grammarsDict.Add(GrammarName.UserDataGrammar, userDataGrammar);
         _grammarsDict.Add(GrammarName.FacilityGrammar, facilityGrammar);
+        _grammarsDict.Add(GrammarName.BedSelectGrammar, bedSelectGrammar);
         _grammarsDict.Add(GrammarName.CreditCardGrammar, creditCardGrammar);
     }
 
@@ -96,6 +97,34 @@ public class SpeechRecognition
         return gramatyka;
     }
 
+    
+    private Grammar CreateBedSelectGrammar()
+    {
+        SrgsRule bedOption = new SrgsRule("BedOption");
+        
+        SrgsOneOf bedType = new SrgsOneOf(new SrgsItem[]
+        {
+            new SrgsItem("pojedyncze"),
+            new SrgsItem("podwójne"),
+        });
+        bedOption.Add(bedType);
+
+        SrgsRule rootSelectBed = new SrgsRule("rootSelectBed");
+        rootSelectBed.Scope = SrgsRuleScope.Public;
+        rootSelectBed.Add(new SrgsRuleRef(bedOption, "BedOption"));
+
+        SrgsDocument docFacility = new SrgsDocument();
+        docFacility.Root = bedOption;
+        docFacility.Culture = new CultureInfo("pl-PL");
+        docFacility.Rules.Add(new SrgsRule[]
+        {
+            rootSelectBed, bedOption
+        });
+
+        Grammar grammar = new Grammar(docFacility, "rootSelectBed");
+        return grammar;
+    }
+    
     private Grammar CreateFacilitiesGrammar()
     {
         SrgsRule selectOption = new SrgsRule("FacilityOption");
@@ -103,10 +132,6 @@ public class SpeechRecognition
 
         SrgsOneOf facitility = new SrgsOneOf(new SrgsItem[]
         {
-            new SrgsItem("Wybierz łóżko"),
-            new SrgsItem("pojedyncze"),
-            new SrgsItem("podwójne"),
-            new SrgsItem("Wybierz udogodnienia"),
             new SrgsItem("Śniadanie tak"),
             new SrgsItem("Śniadanie nie"),
             new SrgsItem("Zwierzęta tak"),
@@ -145,6 +170,8 @@ public class SpeechRecognition
             new SrgsItem("Telefon"),
             new SrgsItem("Numer karty płatniczej"),
             new SrgsItem("Wyczyść dane"),
+            new SrgsItem("Wybierz łóżko"),
+            new SrgsItem("Wybierz udogodnienia"),
             new SrgsItem("Dalej"),
             new SrgsItem("Wstecz"),
             new SrgsItem("Pomoc")
@@ -438,6 +465,11 @@ public class SpeechRecognition
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.FacilityGrammar]);
     }
     
+    public void UnloadFacilitiesGrammar()
+    {
+        _sre.UnloadGrammar(_grammarsDict[GrammarName.FacilityGrammar]);
+    }
+    
     public void LoadUserDataGrammar()
     {
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.UserDataGrammar]);
@@ -448,14 +480,28 @@ public class SpeechRecognition
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.NameSelectGrammar]);
     }
 
+    public void UnloadNameSelectGrammar()
+    {
+        _sre.UnloadGrammar(_grammarsDict[GrammarName.NameSelectGrammar]);
+    }
     public void LoadSurnameSelectGrammar()
     {
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.SurnameSelectGrammar]);
+    }
+    
+    public void UnloadSurnameSelectGrammar()
+    {
+        _sre.UnloadGrammar(_grammarsDict[GrammarName.SurnameSelectGrammar]);
     }
 
     public void LoadTelephoneGrammar()
     {
         _sre.LoadGrammarAsync((_grammarsDict[GrammarName.TelephoneGrammar]));
+    }
+    
+    public void UnloadTelephoneGrammar()
+    {
+        _sre.UnloadGrammar((_grammarsDict[GrammarName.TelephoneGrammar]));
     }
 
     public void LoadHomePageSystemGrammar()
@@ -487,7 +533,22 @@ public class SpeechRecognition
     {
         _sre.LoadGrammarAsync(_grammarsDict[GrammarName.CreditCardGrammar]);
     }
+    
+    public void UnloadCreditCardGrammar()
+    {
+        _sre.UnloadGrammar(_grammarsDict[GrammarName.CreditCardGrammar]);
+    }
 
+    public void LoadBedSelectGrammar()
+    {
+        _sre.LoadGrammarAsync(_grammarsDict[GrammarName.BedSelectGrammar]);
+    }
+
+    public void UnloadBedSelectGrammar()
+    {
+        _sre.UnloadGrammar(_grammarsDict[GrammarName.BedSelectGrammar]);
+    }
+    
     public void UnloadAllGrammar()
     {
         _sre.UnloadAllGrammars();
