@@ -155,7 +155,7 @@ public partial class ReservationDateSelect : UserControl
                 return false;
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             TxtError.Text += "Data jest w niepoprawnym formacie";
             return false;

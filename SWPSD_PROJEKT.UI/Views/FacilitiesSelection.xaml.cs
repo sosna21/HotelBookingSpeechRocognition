@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using Autofac;
@@ -36,134 +38,8 @@ public partial class FacilitiesSelection : UserControl
         _sre.AddSpeechRecognizedEvent(SpeechRecognized);
         _tts.SpeakAsync("Proszę uzupełnić swoje dane oraz wybrać ewentualne udogodnienia");
     }
-
-    private void Reset()
-    {
-        TxtName.Text = "";
-        TxtSurname.Text = "";
-        TxtTelephone.Text = "";
-        TxtCreditCardNumber.Text = "";
-    }
-
-
-    private string ValidateForm()
-    {
-        if (string.IsNullOrWhiteSpace(TxtName.Text) || string.IsNullOrWhiteSpace(TxtSurname.Text)
-                                                    || string.IsNullOrWhiteSpace(TxtTelephone.Text) ||
-                                                    string.IsNullOrWhiteSpace(TxtCreditCardNumber.Text))
-            return "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
-        return null;
-    }
-
-    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-    {
-        Reset();
-    }
-
-    private void ContinueBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var viewModel = (FacilitiesSelectionViewModel) DataContext;
-        if (viewModel.NavigateSummaryOrderCommand.CanExecute(null) &&
-            viewModel.SaveFacilities.CanExecute(null))
-        {
-            viewModel.SaveFacilities.Execute(null);
-            viewModel.NavigateSummaryOrderCommand.Execute(null);
-        }
-        else return;
-
-        SaveRoomReservation();
-    }
-
-    private void SaveRoomReservation()
-    {
-        var container = (Application.Current as App)!.Container;
-        var viewModel = (FacilitiesSelectionViewModel) DataContext;
-        var unitOfWork = container.Resolve<UnitOfWork>();
-        //Create guest
-        var guest = new Guest
-        {
-            Name = TxtName.Text, Surname = TxtSurname.Text, PhoneNumber = TxtTelephone.Text,
-            CreditCardNumber = TxtCreditCardNumber.Text
-        };
-        unitOfWork.Repository<Guest>().Add(guest);
-
-        //Get room
-        var roomName = viewModel.RoomStore.CurrentRoom.RoomName;
-        var room = unitOfWork.Repository<Room>().GetQueryable().FirstOrDefault(x => x.Name == roomName);
-
-        //Get From and To date
-        var fromDate = viewModel.ReservationStore.CurrentReservationDates.FromDate;
-        var toDate = viewModel.ReservationStore.CurrentReservationDates.ToDate;
-        var days = (toDate - fromDate).Days;
-
-        //Get selected facilities from db
-        Facilities facilities = viewModel.Facilities;
-        var dbFacilities = facilities.GetDbFacilities(unitOfWork.Repository<Facility>()).Where(x => x is not null)
-            .ToList();
-
-        //Calculate total price
-        var price = room.PricePerNight * days;
-        dbFacilities.ForEach(x => price += x.Price);
-
-        //Create order
-        var order = new Order
-            {Room = room, Guest = guest, FromDate = fromDate, ToDate = toDate, Days = days, TotalPrice = price};
-        unitOfWork.Repository<Order>().Add(order);
-
-        var facilityOrdersRepo = unitOfWork.Repository<FacilityOrder>();
-        foreach (var dbFacility in dbFacilities)
-        {
-            facilityOrdersRepo.Add(new FacilityOrder {Order = order, Facility = dbFacility});
-        }
-
-        unitOfWork.Complete();
-    }
-
-    string SplitNumbers(string[] numbers)
-    {
-        var txtBuilder = new StringBuilder();
-        foreach (var number in numbers)
-        {
-            switch (number)
-            {
-                case "zero":
-                    txtBuilder.Append('0');
-                    break;
-                case "jeden":
-                    txtBuilder.Append('1');
-                    break;
-                case "dwa":
-                    txtBuilder.Append('2');
-                    break;
-                case "trzy":
-                    txtBuilder.Append('3');
-                    break;
-                case "cztery":
-                    txtBuilder.Append('4');
-                    break;
-                case "pięć":
-                    txtBuilder.Append('5');
-                    break;
-                case "sześć":
-                    txtBuilder.Append('6');
-                    break;
-                case "siedem":
-                    txtBuilder.Append('7');
-                    break;
-                case "osiem":
-                    txtBuilder.Append('8');
-                    break;
-                case "dziewięć":
-                    txtBuilder.Append('9');
-                    break;
-            }
-        }
-
-        return txtBuilder.ToString();
-    }
-
-
-    private void SpeechRecognized(RecognitionResult result)
+    
+        private void SpeechRecognized(RecognitionResult result)
     {
         if (DataContext == null) return;
         float confidence = result.Confidence;
@@ -224,6 +100,12 @@ public partial class FacilitiesSelection : UserControl
                         var error = ValidateForm();
                         if (string.IsNullOrEmpty(error))
                             ContinueBtn.Command.Execute(null);
+                        else
+                        {
+                            TxtError.Text = error;
+                            TxtError.Visibility = Visibility.Visible;
+                            _tts.SpeakAsync(error);
+                        }
                         break;
 
                     default:
@@ -312,6 +194,163 @@ public partial class FacilitiesSelection : UserControl
         }
     }
 
+    private void Reset()
+    {
+        TxtName.Text = string.Empty;
+        TxtSurname.Text = string.Empty;
+        TxtTelephone.Text = string.Empty;
+        TxtCreditCardNumber.Text = string.Empty;
+        TxtError.Text = string.Empty;
+        TxtError.Visibility = Visibility.Hidden;
+    }
+
+
+    private string ValidateForm()
+    {
+        TextBox[] controls = {TxtName, TxtSurname, TxtTelephone, TxtCreditCardNumber};
+
+        if (controls.Any(x => string.IsNullOrEmpty(x.Text)))
+            return "Formularz zawiera puste pola, uzupełnij je zanim przejdziesz dalej.";
+
+        if (!IsPhoneNumber(TxtTelephone.Text))
+        {
+            return "Niepoprawny numer Tel.";
+        }
+
+        if (!IsCreditCardNumberNumber(TxtCreditCardNumber.Text))
+        {
+            return "Niepoprawny numer karty płatniczej.";
+        }
+
+        return null;
+    }
+
+
+    private bool IsPhoneNumber(string number)
+    {
+        return Regex.Match(number, @"^([0-9]{9})$").Success;
+    }
+
+    private bool IsCreditCardNumberNumber(string number)
+    {
+        return Regex.Match(number, @"^([0-9]{16})$").Success;
+    }
+    
+    private void SaveRoomReservation()
+    {
+        var container = (Application.Current as App)!.Container;
+        var viewModel = (FacilitiesSelectionViewModel) DataContext;
+        var unitOfWork = container.Resolve<UnitOfWork>();
+        //Create guest
+        var guest = new Guest
+        {
+            Name = TxtName.Text, Surname = TxtSurname.Text, PhoneNumber = TxtTelephone.Text,
+            CreditCardNumber = TxtCreditCardNumber.Text
+        };
+        unitOfWork.Repository<Guest>().Add(guest);
+
+        //Get room
+        var roomName = viewModel.RoomStore.CurrentRoom.RoomName;
+        var room = unitOfWork.Repository<Room>().GetQueryable().FirstOrDefault(x => x.Name == roomName);
+
+        //Get From and To date
+        var fromDate = viewModel.ReservationStore.CurrentReservationDates.FromDate;
+        var toDate = viewModel.ReservationStore.CurrentReservationDates.ToDate;
+        var days = (toDate - fromDate).Days;
+
+        //Get selected facilities from db
+        Facilities facilities = viewModel.Facilities;
+        var dbFacilities = facilities.GetDbFacilities(unitOfWork.Repository<Facility>()).Where(x => x is not null)
+            .ToList();
+
+        //Calculate total price
+        var price = room.PricePerNight * days;
+        dbFacilities.ForEach(x => price += x.Price);
+
+        //Create order
+        var order = new Order
+            {Room = room, Guest = guest, FromDate = fromDate, ToDate = toDate, Days = days, TotalPrice = price};
+        unitOfWork.Repository<Order>().Add(order);
+
+        var facilityOrdersRepo = unitOfWork.Repository<FacilityOrder>();
+        foreach (var dbFacility in dbFacilities)
+        {
+            facilityOrdersRepo.Add(new FacilityOrder {Order = order, Facility = dbFacility});
+        }
+
+        unitOfWork.Complete();
+    }
+
+    string SplitNumbers(string[] numbers)
+    {
+        var txtBuilder = new StringBuilder();
+        foreach (var number in numbers)
+        {
+            switch (number)
+            {
+                case "zero":
+                    txtBuilder.Append('0');
+                    break;
+                case "jeden":
+                    txtBuilder.Append('1');
+                    break;
+                case "dwa":
+                    txtBuilder.Append('2');
+                    break;
+                case "trzy":
+                    txtBuilder.Append('3');
+                    break;
+                case "cztery":
+                    txtBuilder.Append('4');
+                    break;
+                case "pięć":
+                    txtBuilder.Append('5');
+                    break;
+                case "sześć":
+                    txtBuilder.Append('6');
+                    break;
+                case "siedem":
+                    txtBuilder.Append('7');
+                    break;
+                case "osiem":
+                    txtBuilder.Append('8');
+                    break;
+                case "dziewięć":
+                    txtBuilder.Append('9');
+                    break;
+            }
+        }
+
+        return txtBuilder.ToString();
+    }
+    
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
+        Reset();
+    }
+
+    private void ContinueBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var errors = ValidateForm();
+        if (!string.IsNullOrEmpty(errors))
+        {
+            TxtError.Text = errors;
+            TxtError.Visibility = Visibility.Visible;
+            return;
+        }
+        
+        var viewModel = (FacilitiesSelectionViewModel) DataContext;
+        if (viewModel.NavigateSummaryOrderCommand.CanExecute(null) &&
+            viewModel.SaveFacilities.CanExecute(null))
+        {
+            viewModel.SaveFacilities.Execute(null);
+            viewModel.NavigateSummaryOrderCommand.Execute(null);
+        }
+        else return;
+
+        SaveRoomReservation();
+    }
+    
     private void TxtName_OnGotFocus(object sender, RoutedEventArgs e)
     {
         _sre.LoadNameSelectGrammar();
