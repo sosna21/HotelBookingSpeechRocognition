@@ -50,28 +50,31 @@ public class SeedData
         _unitOfWork.Repository<Facility>().Add(new Facility {Name = "AlcoholBar", Price = 100});
         _unitOfWork.Repository<Facility>().Add(new Facility {Name = "ExtraBedForChild", Price = 100});
         
-        //TODO add Guests (min 4)
-
-        // _unitOfWork.Repository<Order>().Add(new Order
-        // {
-        //     RoomId = 1, GuestId = 1, FromDate = DateTime.Parse("2022-02-04"), ToDate = DateTime.Parse("2022-02-14"),
-        //     Days = 10, TotalPrice = 10000
-        // });
-        // _unitOfWork.Repository<Order>().Add(new Order
-        // {
-        //     RoomId = 2, GuestId = 2, FromDate = DateTime.Parse("2022-02-11"), ToDate = DateTime.Parse("2022-02-17"),
-        //     Days = 6, TotalPrice = 5000
-        // });
-        // _unitOfWork.Repository<Order>().Add(new Order
-        // {
-        //     RoomId = 3, GuestId = 3, FromDate = DateTime.Parse("2022-02-18"), ToDate = DateTime.Parse("2022-02-28"),
-        //     Days = 10, TotalPrice = 10000
-        // });
-        // _unitOfWork.Repository<Order>().Add(new Order
-        // {
-        //     RoomId = 4, GuestId = 4, FromDate = DateTime.Parse("2022-02-20"), ToDate = DateTime.Parse("2022-02-28"),
-        //     Days = 8, TotalPrice = 8000
-        // });
+        _unitOfWork.Repository<Guest>().Add(new Guest{Name = "Armand", Surname = "Reyes", PhoneNumber = "7275353184", CreditCardNumber = "5334172013756849"});
+        _unitOfWork.Repository<Guest>().Add(new Guest{Name = "Latanya", Surname = "Baily", PhoneNumber = "812829303", CreditCardNumber = "5468914857890004"});
+        _unitOfWork.Repository<Guest>().Add(new Guest{Name = "Paul", Surname = "Ballard", PhoneNumber = "2539878557", CreditCardNumber = "4532135799873263"});
+        _unitOfWork.Repository<Guest>().Add(new Guest{Name = "Bradley", Surname = "Flores", PhoneNumber = "240253805", CreditCardNumber = "4532892786895119"});
+        
+        _unitOfWork.Repository<Order>().Add(new Order
+        {
+            RoomId = 1, GuestId = 1, FromDate = DateTime.Parse("2023-02-04"), ToDate = DateTime.Parse("2023-02-14"),
+            Days = 10, TotalPrice = 10000
+        });
+        _unitOfWork.Repository<Order>().Add(new Order
+        {
+            RoomId = 2, GuestId = 2, FromDate = DateTime.Parse("2023-02-11"), ToDate = DateTime.Parse("2023-02-17"),
+            Days = 6, TotalPrice = 5000
+        });
+        _unitOfWork.Repository<Order>().Add(new Order
+        {
+            RoomId = 3, GuestId = 3, FromDate = DateTime.Parse("2023-02-18"), ToDate = DateTime.Parse("2023-02-28"),
+            Days = 10, TotalPrice = 10000
+        });
+        _unitOfWork.Repository<Order>().Add(new Order
+        {
+            RoomId = 4, GuestId = 4, FromDate = DateTime.Parse("2023-02-20"), ToDate = DateTime.Parse("2023-02-28"),
+            Days = 8, TotalPrice = 8000
+        });
         
         _unitOfWork.Complete();
     }
