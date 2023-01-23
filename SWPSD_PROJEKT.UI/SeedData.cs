@@ -1,4 +1,5 @@
-﻿using SWPSD_PROJEKT.DialogDriver;
+﻿using System;
+using SWPSD_PROJEKT.DialogDriver;
 using SWPSD_PROJEKT.DialogDriver.Model;
 
 namespace SWPSD_PROJEKT.UI;
@@ -42,13 +43,36 @@ public class SeedData
                 "Apartament hotelowy jest przestronny i luksusowy.\n Posiada on łóżka z satynową pościelą, elegancki stolik z krzesłami, szafę oraz telewizor z dostępem do różnych kanałów z płatnymi filmami i programami. Apartament jest klimatyzowany i posiada panoramiczne okna z widokiem na morze. Na wyposażeniu jest również sejf i zestaw do parzenia kawy i herbaty. Łazienka jest w pełni wyposażona, posiada wanna z hydromasażem, suszarkę do włosów, ręczniki frotte oraz kosmetyki. Bezpłatny bezprzewodowy dostęp do internetu jest dostępny w całym apatamencie.",
             PricePerNight = 525
         });
-        
+
         _unitOfWork.Repository<Facility>().Add(new Facility {Name = "DoubleBed", Price = 100});
         _unitOfWork.Repository<Facility>().Add(new Facility {Name = "Breakfast", Price = 50});
         _unitOfWork.Repository<Facility>().Add(new Facility {Name = "Pets", Price = 100});
         _unitOfWork.Repository<Facility>().Add(new Facility {Name = "AlcoholBar", Price = 100});
         _unitOfWork.Repository<Facility>().Add(new Facility {Name = "ExtraBedForChild", Price = 100});
+        
+        //TODO add Guests (min 4)
+
+        // _unitOfWork.Repository<Order>().Add(new Order
+        // {
+        //     RoomId = 1, GuestId = 1, FromDate = DateTime.Parse("2022-02-04"), ToDate = DateTime.Parse("2022-02-14"),
+        //     Days = 10, TotalPrice = 10000
+        // });
+        // _unitOfWork.Repository<Order>().Add(new Order
+        // {
+        //     RoomId = 2, GuestId = 2, FromDate = DateTime.Parse("2022-02-11"), ToDate = DateTime.Parse("2022-02-17"),
+        //     Days = 6, TotalPrice = 5000
+        // });
+        // _unitOfWork.Repository<Order>().Add(new Order
+        // {
+        //     RoomId = 3, GuestId = 3, FromDate = DateTime.Parse("2022-02-18"), ToDate = DateTime.Parse("2022-02-28"),
+        //     Days = 10, TotalPrice = 10000
+        // });
+        // _unitOfWork.Repository<Order>().Add(new Order
+        // {
+        //     RoomId = 4, GuestId = 4, FromDate = DateTime.Parse("2022-02-20"), ToDate = DateTime.Parse("2022-02-28"),
+        //     Days = 8, TotalPrice = 8000
+        // });
+        
         _unitOfWork.Complete();
     }
-    
 }

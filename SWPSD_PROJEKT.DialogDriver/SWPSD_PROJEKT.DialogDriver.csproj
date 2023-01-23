@@ -84,9 +84,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="DialogControl.cs" />
         <Compile Include="HotelContext.cs" />
-        <Compile Include="IDialogControl.cs" />
         <Compile Include="IRepository.cs" />
         <Compile Include="Migrations\202301221836182_InitialMigration.cs" />
         <Compile Include="Migrations\202301221836182_InitialMigration.Designer.cs">

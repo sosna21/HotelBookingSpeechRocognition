@@ -50,7 +50,6 @@ public partial class FacilitiesSelection : UserControl
     {
         if (DataContext == null) return;
         float confidence = result.Confidence;
-        // _tts.SpeakAsync(confidence.ToString("0.00"));
         if (confidence > 0.5)
         {
             if (result.Grammar.RuleName == "rootUserDataSelect")
