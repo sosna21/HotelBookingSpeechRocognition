@@ -38,6 +38,10 @@ public partial class ReservationDateSelect : UserControl
 
     private void BlackoutDates(List<(DateTime FromDate, DateTime ToDate)> dates)
     {
+        var pastDates = new CalendarDateRange(DateTime.MinValue, DateTime.Today.AddDays(-1));
+        FromDate.BlackoutDates.Add(pastDates);
+        ToDate.BlackoutDates.Add(pastDates);
+        
         dates.ForEach(x =>
         {
             var dateRange = new CalendarDateRange(x.FromDate, x.ToDate);

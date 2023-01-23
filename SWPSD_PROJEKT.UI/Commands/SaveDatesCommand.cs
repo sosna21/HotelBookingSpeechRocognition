@@ -18,6 +18,7 @@ public class SaveDatesCommand : CommandBase
 
     public override void Execute(object parameter)
     {
+        
         var reservationDates = new ReservationDates
         {
             FromDate = DateTime.Parse(_roomSelectViewModel.FromDate),
