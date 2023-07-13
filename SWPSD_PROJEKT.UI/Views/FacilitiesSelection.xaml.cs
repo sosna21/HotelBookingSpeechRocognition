@@ -100,7 +100,7 @@ public partial class FacilitiesSelection : UserControl
                     case "Dalej":
                         var error = ValidateForm();
                         if (string.IsNullOrEmpty(error))
-                            ContinueBtn.Command.Execute(null);
+                            ContinueBtn_OnClick(null, null);
                         else
                         {
                             TxtError.Text = error;
