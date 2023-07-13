@@ -1,4 +1,4 @@
-# WpfAppWithSpeechRecognition
+# HotelBookingSpeechRocognition
 
 This project is a university assignment focused on the usage of speech recognition. It was created using the .NET Framework version 4.8 and requires SQL Server and Microsoft Speech.
 
